@@ -1,0 +1,5125 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Guia del curso de sistemas distribuidos con Spring Cloud">
+      
+      
+      
+      
+        <link rel="prev" href="../../silabo_dist_2026_2/">
+      
+      
+        <link rel="next" href="../s02-configuracion-centralizada/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/proyecto-logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>S1 - Servicio base - TechStore-Proyecto final</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#s1-construccion-de-un-servicio-base-para-un-sistema-distribuido" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="TechStore-Proyecto final" class="md-header__button md-logo" aria-label="TechStore-Proyecto final" data-md-component="logo">
+      
+  
+  <img src="../../assets/images/proyecto-logo.png" alt="TechStore logo" draggable="false" style="height:2.4rem;width:2.4rem;object-fit:contain">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            TechStore-Proyecto final
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              S1 - Servicio base
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="TechStore-Proyecto final" class="md-nav__button md-logo" aria-label="TechStore-Proyecto final" data-md-component="logo">
+      
+  
+  <img src="../../assets/images/proyecto-logo.png" alt="TechStore-Proyecto logo" draggable="false" style="height:2.4rem;width:2.4rem;object-fit:contain">
+
+    </a>
+    TechStore-Proyecto final
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Silabos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Silabos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../silabo_dist_2026_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Silabo 2026-1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../silabo_dist_2026_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Silabo 2026-2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Sistema distribuido base
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    1. Sistema distribuido base
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S1 - Servicio base
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S1 - Servicio base
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introducción
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introducción">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-proposito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Propósito
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-resultado-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Resultado de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-producto-de-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Producto de sesión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-motivacion-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Motivacion de la sesión
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.4 Motivacion de la sesión">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#141-caso-plataforma-de-comercio-electronico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4.1 Caso: plataforma de comercio electrónico
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-ubicacion-en-el-curso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Ubicación en el curso
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-explica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Explica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Explica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-conceptos-clave" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Conceptos clave
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-arquitectura-del-producto-en-techstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Arquitectura del producto en TechStore
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Arquitectura del producto en TechStore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#221-regla-practica-general" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.1 Regla práctica general
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#222-microservicio-catalogo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.2 catalogo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#223-microservicio-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.3 auth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#224-microservicio-producto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.4 producto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#225-microservicio-pedido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.5 pedido
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#226-microservicio-pago" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.6 pago
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#227-microservicio-carrito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.7 carrito
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#228-flujos-de-trabajo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.8 Flujos de trabajo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2.8 Flujos de trabajo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#229-flujo-catalogo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.9 catalogo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#230-flujo-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.10 auth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#231-flujo-producto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.11 producto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#232-flujo-pedido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.12 pedido
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#233-flujo-pago" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.13 pago
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#234-flujo-carrito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.14 carrito
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-observabilidad-y-diagnostico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Observabilidad y diagnóstico
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Observabilidad y diagnóstico">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#231-senales-basicas-a-revisar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3.1 Señales básicas a revisar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#232-errores-frecuentes-y-diagnostico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3.2 Errores frecuentes y diagnóstico
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-aplica-actividad-practica-guiada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Aplica: actividad práctica guiada
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Aplica: actividad práctica guiada">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-preparar-ambiente-local-java-17-maven-docker-y-vs-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Preparar ambiente local: Java 17, Maven, Docker y VS Code
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1 Preparar ambiente local: Java 17, Maven, Docker y VS Code">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#311-instalar-gestor-de-paquetes-en-windows-o-macos-si-no-existe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.1 Instalar gestor de paquetes en Windows o macOS, si no existe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#312-instalar-o-verificar-java-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.2 Instalar o verificar Java 17
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#313-instalar-o-verificar-maven-3x" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.3 Instalar o verificar Maven 3.x
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#314-instalar-o-verificar-docker-desktop-y-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.4 Instalar o verificar Docker Desktop y Docker Compose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#315-abrir-el-proyecto-en-vs-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.5 Abrir el proyecto en VS Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-crear-el-proyecto-spring-boot-desde-vs-code-con-dependencias-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Crear el proyecto Spring Boot desde VS Code con dependencias base
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 Crear el proyecto Spring Boot desde VS Code con dependencias base">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#321-crear-el-proyecto-con-spring-initializr-desde-vs-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.1 Crear el proyecto con Spring Initializr desde VS Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#322-revisar-dependencias-mysql-y-flyway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.2 Revisar dependencias MySQL y Flyway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#323-ejecutar-una-primera-vez-y-reconocer-el-fallo-esperado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.3 Ejecutar una primera vez y reconocer el fallo esperado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#324-crear-compose-devyml-para-mysql-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.4 Crear docker-compose-dev.yml para MySQL DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#325-configurar-applicationyml-y-application-devyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.5 Configurar application.yml y application-dev.yml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#326-crear-un-endpoint-temporal-de-saludo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.6 Crear un endpoint temporal de saludo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#327-ejecutar-y-comprobar-que-ya-no-falla" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.7 Ejecutar y comprobar que ya no falla
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-construir-el-crud-de-categoria-con-una-base-de-apoyo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Construir el CRUD de Categoria con una base de apoyo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 Construir el CRUD de Categoria con una base de apoyo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#331-revisar-la-entidad-principal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.1 Revisar la entidad principal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#332-clonar-la-repo-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.2 Clonar la repo base
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#333-copiar-carpetas-del-crud" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.3 Copiar carpetas del CRUD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#334-revisar-estructura-resultante" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.4 Revisar estructura resultante
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#335-revisar-cada-capa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.5 Revisar cada capa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#336-revisar-logs-y-trazabilidad-interna" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.6 Revisar logs y trazabilidad interna
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#337-revisar-validaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.7 Revisar validaciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#338-revisar-migracion-flyway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.8 Revisar migración Flyway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#339-preguntas-de-verificacion-antes-de-ejecutar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.9 Preguntas de verificación antes de ejecutar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-ejecutar-y-probar-el-microservicio-en-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Ejecutar y probar el microservicio en DEV
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.4 Ejecutar y probar el microservicio en DEV">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#341-verificar-mysql-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4.1 Verificar MySQL DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#342-ejecutar-con-maven" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4.2 Ejecutar con Maven
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#343-verificar-tabla-creada-por-flyway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4.3 Verificar tabla creada por Flyway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#344-revisar-swagger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4.4 Revisar Swagger
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#345-verificar-health-y-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4.5 Verificar health y metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#346-probar-crud-por-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4.6 Probar CRUD por shell
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#347-ejecutar-una-segunda-instancia-en-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4.7 Ejecutar una segunda instancia en DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-configurar-produccion-local-con-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Configurar producción local con Docker
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.5 Configurar producción local con Docker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#351-crear-dockerfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5.1 Crear Dockerfile
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#352-crear-env-y-envexample" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5.2 Crear .env y .env.example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#353-crear-application-prodyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5.3 Crear application-prod.yml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#354-crear-composeyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5.4 Crear compose.yml
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-probar-produccion-local-con-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Probar producción local con Docker
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.6 Probar producción local con Docker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#361-levantar-produccion-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6.1 Levantar producción local
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#362-verificar-la-base-de-datos-prod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6.2 Verificar la base de datos PROD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#363-verificar-health-desde-la-red-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6.3 Verificar health desde la red Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#364-revisar-logs-y-bajar-el-entorno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6.4 Revisar logs y bajar el entorno
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-ruta-alternativa-clonar-y-ejecutar-a-partir-del-tag-final-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#371-archivos-clave-por-modo-de-ejecucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7.1 Archivos clave por modo de ejecución
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#372-verificacion-rapida-de-base-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7.2 Verificación rápida de base de datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-crea-actividad-autonoma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Crea: actividad autónoma
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Crea: actividad autónoma">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-plantilla-de-evidencia-individual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Plantilla de evidencia individual
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Plantilla de evidencia individual">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#411-datos-del-estudiante" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.1 Datos del estudiante
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#412-trabajo-autonomo-realizado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.2 Trabajo autónomo realizado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#413-evidencia-tecnica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.3 Evidencia técnica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#414-error-o-hallazgo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.4 Error o hallazgo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#415-reflexion-tecnica-breve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.5 Reflexión técnica breve
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-criterios-minimos-de-aceptacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Criterios mínimos de aceptación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-cierre-evaluativo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Cierre evaluativo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Cierre evaluativo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-resultados-esperados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Resultados esperados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-evidencia-del-producto-de-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Evidencia del producto de sesión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-preguntas-de-defensa-y-reflexion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Preguntas de defensa y reflexión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-rubrica-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Rúbrica de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s02-configuracion-centralizada/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S2 - Configuracion y ambientes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s03-eureka-escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S3 - Registro y descubrimiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s04-gateway-load-balancer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S4 - Acceso unico y trafico
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s05-evaluacion-u1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S5 - Evaluacion U1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Sistema distribuido robusto
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    2. Sistema distribuido robusto
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s06-feign-circuit-breaker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S6 - Comunicacion sincronica resiliente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s07-seguridad-jwt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S7 - Seguridad distribuida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s08-angular-cors-jwt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S8 - Mensajeria asincrona
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s09-kafka-eventos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S9 - Consistencia distribuida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s10-observabilidad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S10 - Observabilidad y diagnostico
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s11-integracion-fullstack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S11 - Integracion frontend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s12-evaluacion-u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S12 - Evaluacion U2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Validacion y consolidacion
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    3. Validacion y consolidacion
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s13-validacion-integral/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S13 - Validacion end-to-end
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s14-cierre-tecnico/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S14 - Revision tecnica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s15-defensa-tecnica/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S15 - Defensa tecnica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s16-evaluacion-final/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S16 - Evaluacion final
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introducción
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introducción">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-proposito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Propósito
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-resultado-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Resultado de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-producto-de-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Producto de sesión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-motivacion-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Motivacion de la sesión
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.4 Motivacion de la sesión">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#141-caso-plataforma-de-comercio-electronico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4.1 Caso: plataforma de comercio electrónico
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-ubicacion-en-el-curso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Ubicación en el curso
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-explica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Explica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Explica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-conceptos-clave" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Conceptos clave
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-arquitectura-del-producto-en-techstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Arquitectura del producto en TechStore
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Arquitectura del producto en TechStore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#221-regla-practica-general" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.1 Regla práctica general
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#222-microservicio-catalogo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.2 catalogo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#223-microservicio-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.3 auth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#224-microservicio-producto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.4 producto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#225-microservicio-pedido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.5 pedido
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#226-microservicio-pago" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.6 pago
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#227-microservicio-carrito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.7 carrito
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#228-flujos-de-trabajo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.8 Flujos de trabajo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2.8 Flujos de trabajo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#229-flujo-catalogo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.9 catalogo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#230-flujo-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.10 auth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#231-flujo-producto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.11 producto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#232-flujo-pedido" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.12 pedido
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#233-flujo-pago" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.13 pago
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#234-flujo-carrito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.14 carrito
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-observabilidad-y-diagnostico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Observabilidad y diagnóstico
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Observabilidad y diagnóstico">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#231-senales-basicas-a-revisar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3.1 Señales básicas a revisar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#232-errores-frecuentes-y-diagnostico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3.2 Errores frecuentes y diagnóstico
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-aplica-actividad-practica-guiada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Aplica: actividad práctica guiada
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Aplica: actividad práctica guiada">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-preparar-ambiente-local-java-17-maven-docker-y-vs-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Preparar ambiente local: Java 17, Maven, Docker y VS Code
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.1 Preparar ambiente local: Java 17, Maven, Docker y VS Code">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#311-instalar-gestor-de-paquetes-en-windows-o-macos-si-no-existe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.1 Instalar gestor de paquetes en Windows o macOS, si no existe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#312-instalar-o-verificar-java-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.2 Instalar o verificar Java 17
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#313-instalar-o-verificar-maven-3x" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.3 Instalar o verificar Maven 3.x
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#314-instalar-o-verificar-docker-desktop-y-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.4 Instalar o verificar Docker Desktop y Docker Compose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#315-abrir-el-proyecto-en-vs-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1.5 Abrir el proyecto en VS Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-crear-el-proyecto-spring-boot-desde-vs-code-con-dependencias-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Crear el proyecto Spring Boot desde VS Code con dependencias base
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 Crear el proyecto Spring Boot desde VS Code con dependencias base">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#321-crear-el-proyecto-con-spring-initializr-desde-vs-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.1 Crear el proyecto con Spring Initializr desde VS Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#322-revisar-dependencias-mysql-y-flyway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.2 Revisar dependencias MySQL y Flyway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#323-ejecutar-una-primera-vez-y-reconocer-el-fallo-esperado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.3 Ejecutar una primera vez y reconocer el fallo esperado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#324-crear-compose-devyml-para-mysql-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.4 Crear docker-compose-dev.yml para MySQL DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#325-configurar-applicationyml-y-application-devyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.5 Configurar application.yml y application-dev.yml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#326-crear-un-endpoint-temporal-de-saludo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.6 Crear un endpoint temporal de saludo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#327-ejecutar-y-comprobar-que-ya-no-falla" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2.7 Ejecutar y comprobar que ya no falla
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-construir-el-crud-de-categoria-con-una-base-de-apoyo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Construir el CRUD de Categoria con una base de apoyo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 Construir el CRUD de Categoria con una base de apoyo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#331-revisar-la-entidad-principal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.1 Revisar la entidad principal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#332-clonar-la-repo-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.2 Clonar la repo base
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#333-copiar-carpetas-del-crud" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.3 Copiar carpetas del CRUD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#334-revisar-estructura-resultante" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.4 Revisar estructura resultante
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#335-revisar-cada-capa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.5 Revisar cada capa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#336-revisar-logs-y-trazabilidad-interna" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.6 Revisar logs y trazabilidad interna
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#337-revisar-validaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.7 Revisar validaciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#338-revisar-migracion-flyway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.8 Revisar migración Flyway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#339-preguntas-de-verificacion-antes-de-ejecutar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.9 Preguntas de verificación antes de ejecutar
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-ejecutar-y-probar-el-microservicio-en-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Ejecutar y probar el microservicio en DEV
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.4 Ejecutar y probar el microservicio en DEV">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#341-verificar-mysql-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4.1 Verificar MySQL DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#342-ejecutar-con-maven" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4.2 Ejecutar con Maven
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#343-verificar-tabla-creada-por-flyway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4.3 Verificar tabla creada por Flyway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#344-revisar-swagger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4.4 Revisar Swagger
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#345-verificar-health-y-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4.5 Verificar health y metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#346-probar-crud-por-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4.6 Probar CRUD por shell
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#347-ejecutar-una-segunda-instancia-en-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4.7 Ejecutar una segunda instancia en DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-configurar-produccion-local-con-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Configurar producción local con Docker
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.5 Configurar producción local con Docker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#351-crear-dockerfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5.1 Crear Dockerfile
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#352-crear-env-y-envexample" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5.2 Crear .env y .env.example
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#353-crear-application-prodyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5.3 Crear application-prod.yml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#354-crear-composeyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5.4 Crear compose.yml
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-probar-produccion-local-con-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Probar producción local con Docker
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.6 Probar producción local con Docker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#361-levantar-produccion-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6.1 Levantar producción local
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#362-verificar-la-base-de-datos-prod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6.2 Verificar la base de datos PROD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#363-verificar-health-desde-la-red-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6.3 Verificar health desde la red Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#364-revisar-logs-y-bajar-el-entorno" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6.4 Revisar logs y bajar el entorno
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-ruta-alternativa-clonar-y-ejecutar-a-partir-del-tag-final-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#371-archivos-clave-por-modo-de-ejecucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7.1 Archivos clave por modo de ejecución
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#372-verificacion-rapida-de-base-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7.2 Verificación rápida de base de datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-crea-actividad-autonoma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Crea: actividad autónoma
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Crea: actividad autónoma">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-plantilla-de-evidencia-individual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Plantilla de evidencia individual
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Plantilla de evidencia individual">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#411-datos-del-estudiante" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.1 Datos del estudiante
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#412-trabajo-autonomo-realizado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.2 Trabajo autónomo realizado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#413-evidencia-tecnica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.3 Evidencia técnica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#414-error-o-hallazgo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.4 Error o hallazgo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#415-reflexion-tecnica-breve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.5 Reflexión técnica breve
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-criterios-minimos-de-aceptacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Criterios mínimos de aceptación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-cierre-evaluativo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Cierre evaluativo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Cierre evaluativo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-resultados-esperados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Resultados esperados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-evidencia-del-producto-de-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Evidencia del producto de sesión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-preguntas-de-defensa-y-reflexion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Preguntas de defensa y reflexión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-rubrica-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Rúbrica de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="s1-construccion-de-un-servicio-base-para-un-sistema-distribuido">S1 - Construcción de un servicio base para un sistema distribuido</h1>
+<h2 id="1-introduccion">1. Introducción</h2>
+<p>Tiempo: 20 min.</p>
+<h3 id="11-proposito">1.1 Propósito</h3>
+<p>Construir el primer servicio de negocio del sistema y dejarlo preparado para crecer hacia una arquitectura distribuida.</p>
+<h3 id="12-resultado-de-aprendizaje">1.2 Resultado de aprendizaje</h3>
+<p>El estudiante implementa un microservicio stateless con API REST, persistencia, validación, documentación de endpoints, health check y ejecución reproducible en desarrollo y producción.</p>
+<h3 id="13-producto-de-sesion">1.3 Producto de sesión</h3>
+<p><code>catalogo</code> funcional con CRUD de categorías, MySQL en Docker, Swagger, Actuator, README operativo y pruebas por shell. En DEV el servicio corre en el puerto <strong>9081</strong> y la base de datos en <strong>3381</strong>.</p>
+<h3 id="14-motivacion-de-la-sesion">1.4 Motivacion de la sesión</h3>
+<h4 id="141-caso-techstore-plataforma-de-comercio-electronico">1.4.1 Caso: TechStore — plataforma de comercio electrónico</h4>
+<p><strong>TechStore</strong> es una tienda en línea de productos tecnológicos. Inicialmente, todo el sistema (catálogo, productos, carrito, pedidos, pagos con Mercado Pago y autenticación) fue construido como una sola aplicación monolítica.</p>
+<p>Con el crecimiento del negocio comienzan a aparecer problemas:</p>
+<ul>
+<li>El sistema tarda más en desplegarse.</li>
+<li>Errores en un módulo afectan a todo el sistema.</li>
+<li>Es difícil escalar partes específicas del sistema.</li>
+<li>Los equipos de desarrollo trabajan sobre el mismo código.</li>
+</ul>
+<p>El equipo de ingeniería decide rediseñar la arquitectura del sistema utilizando microservicios dentro del monorepo <strong>TechStore-Proyecto</strong>.</p>
+<p>Preguntas para los estudiantes:</p>
+<ol>
+<li>¿Qué problemas tiene la arquitectura monolítica en este caso?</li>
+<li>¿Por qué una empresa migraría a microservicios?</li>
+<li>¿Qué ventajas ofrece dividir el sistema en servicios?</li>
+</ol>
+<h4 id="142-respuestas-orientativas">1.4.2 Respuestas orientativas</h4>
+<p><strong>1. ¿Qué problemas tiene la arquitectura monolítica en TechStore?</strong></p>
+<ul>
+<li>Cada cambio pequeño (por ejemplo, en pagos) obliga a redesplegar <strong>toda</strong> la aplicación.</li>
+<li>Si falla el módulo de Mercado Pago, también puede caer el catálogo o el login.</li>
+<li>En campañas o fechas pico no se puede escalar solo el módulo de productos o pedidos.</li>
+<li>Varios equipos modifican el mismo código y los conflictos de integración se vuelven frecuentes.</li>
+</ul>
+<p><strong>2. ¿Por qué una empresa migraría a microservicios?</strong></p>
+<ul>
+<li>Para que cada dominio de negocio evolucione y se despliegue de forma <strong>independiente</strong> (catálogo, producto, pedido, pago, auth, carrito).</li>
+<li>Para reducir el impacto de un fallo: un error en <code>pago</code> no debería tumbar <code>catalogo</code>.</li>
+<li>Para escalar solo lo que más tráfico recibe (por ejemplo, <code>producto</code> en temporada alta).</li>
+<li>Para alinear equipos con servicios concretos y entregar valor más rápido.</li>
+</ul>
+<p><strong>3. ¿Qué ventajas ofrece dividir el sistema en servicios?</strong></p>
+<ul>
+<li><strong>Responsabilidad clara:</strong> <code>catalogo</code> solo gestiona categorías; <code>producto</code> solo productos; <code>pedido</code> solo pedidos.</li>
+<li><strong>Base de datos propia</strong> por servicio (<code>db_catalogo</code>, <code>db_producto</code>, etc.).</li>
+<li><strong>Infraestructura compartida:</strong> Config Server (7071), Eureka (7081) y Gateway (7091).</li>
+<li><strong>Comunicación asíncrona</strong> con Kafka entre pedidos y pagos.</li>
+<li><strong>Frontend desacoplado:</strong> <code>techstore-proyecto</code> (Angular) consume todo por el Gateway.</li>
+</ul>
+<p>En esta sesión se inicia ese rediseño construyendo el primer componente de <strong>TechStore</strong>: el microservicio <code>catalogo</code> en <code>services/catalogo</code>.</p>
+<h3 id="15-ubicacion-en-el-curso">1.5 Ubicación en el curso</h3>
+<ul>
+<li><strong>Proyecto:</strong> TechStore-Proyecto (monorepo <code>ProyectoMS2026</code>).</li>
+<li><strong>Unidad:</strong> U1 — Sistema distribuido base orientado a producción.</li>
+<li><strong>Producto de unidad:</strong> sistema distribuido funcional, configurable y preparado para múltiples instancias, ejecutable en desarrollo y producción local en paralelo.</li>
+<li><strong>Avance en S1:</strong> primer microservicio REST (<code>services/catalogo</code>), persistente con MySQL, observable con Actuator y ejecutable fuera del IDE.</li>
+<li><strong>Documentación:</strong> sitio publicado en <code>techstore-gh-pages</code>; frontend Angular en <code>techstore-proyecto</code> (integración en S11).</li>
+</ul>
+<p>Roadmap U1 — vista general de TechStore:</p>
+<pre class="mermaid"><code>flowchart TB
+    subgraph TechStore["TechStore-Proyecto"]
+        Cliente["Cliente de prueba&lt;br/&gt;PowerShell / bash / Swagger"]
+        Angular["techstore-proyecto&lt;br/&gt;Angular 4200&lt;br/&gt;S11+"]
+
+        subgraph Infra["infra/"]
+            Gateway["gateway&lt;br/&gt;7091"]
+            Eureka["registry-server&lt;br/&gt;7081"]
+            Config["config-server&lt;br/&gt;7071"]
+            Repo["config-repo/&lt;br/&gt;*-dev.yml / *-prod.yml"]
+        end
+
+        subgraph Services["services/"]
+            Auth["auth&lt;br/&gt;8041"]
+            Catalogo["catalogo&lt;br/&gt;9081 — S1 HOY"]
+            Producto["producto&lt;br/&gt;9091"]
+            Pedido["pedido&lt;br/&gt;9101"]
+            Pago["pago&lt;br/&gt;9111"]
+            Carrito["carrito&lt;br/&gt;9121"]
+        end
+    end
+
+    Cliente --&gt; Gateway
+    Angular -. "S11+" .-&gt; Gateway
+    Gateway --&gt; Auth
+    Gateway --&gt; Catalogo
+    Gateway --&gt; Producto
+    Gateway --&gt; Pedido
+    Gateway --&gt; Pago
+    Gateway --&gt; Carrito
+    Gateway -. descubre servicios .-&gt; Eureka
+    Auth -. registra instancia .-&gt; Eureka
+    Catalogo -. registra instancia .-&gt; Eureka
+    Producto -. registra instancia .-&gt; Eureka
+    Pedido -. registra instancia .-&gt; Eureka
+    Pago -. registra instancia .-&gt; Eureka
+    Carrito -. registra instancia .-&gt; Eureka
+    Auth -. carga configuracion .-&gt; Config
+    Catalogo -. carga configuracion .-&gt; Config
+    Producto -. carga configuracion .-&gt; Config
+    Pedido -. carga configuracion .-&gt; Config
+    Pago -. carga configuracion .-&gt; Config
+    Carrito -. carga configuracion .-&gt; Config
+    Config --&gt; Repo
+
+    classDef today fill:#ffe08a,stroke:#9a6b00,stroke-width:2px,color:#111;
+    classDef future fill:#f5f5f5,stroke:#999,color:#555;
+    class Catalogo today;
+    class Angular,Auth,Producto,Pedido,Pago,Carrito future;</code></pre>
+<p><strong>Hoy (S1):</strong> construyes <code>catalogo</code>. Los demás microservicios ya existen en el monorepo como referencia; los irás integrando en sesiones posteriores replicando el mismo patrón (REST + MySQL + Actuator + Swagger).</p>
+<h4 id="151-mapa-dev-por-microservicio">1.5.1 Mapa DEV por microservicio</h4>
+<p>Cada servicio sigue la misma idea en DEV: aplicación con Maven en el host y MySQL en Docker. Debajo, un diagrama por microservicio con su puerto y base de datos.</p>
+<table>
+<thead>
+<tr>
+<th>Microservicio</th>
+<th>Carpeta</th>
+<th>Puerto DEV</th>
+<th>MySQL DEV</th>
+<th>Base de datos</th>
+<th>Responsabilidad</th>
+<th>Sesión</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>catalogo</strong></td>
+<td><code>services/catalogo</code></td>
+<td>9081</td>
+<td>3381</td>
+<td><code>db_catalogo</code></td>
+<td>Categorías del catálogo</td>
+<td><strong>S1 — HOY</strong></td>
+</tr>
+<tr>
+<td><strong>auth</strong></td>
+<td><code>services/auth</code></td>
+<td>8041</td>
+<td>3341</td>
+<td><code>db_auth</code></td>
+<td>Usuarios, login y JWT</td>
+<td>S7</td>
+</tr>
+<tr>
+<td><strong>producto</strong></td>
+<td><code>services/producto</code></td>
+<td>9091</td>
+<td>3391</td>
+<td><code>db_producto</code></td>
+<td>Productos e imágenes</td>
+<td>S1 aplicado / U1</td>
+</tr>
+<tr>
+<td><strong>pedido</strong></td>
+<td><code>services/pedido</code></td>
+<td>9101</td>
+<td>3401</td>
+<td><code>db_pedido</code></td>
+<td>Pedidos de compra</td>
+<td>U2</td>
+</tr>
+<tr>
+<td><strong>pago</strong></td>
+<td><code>services/pago</code></td>
+<td>9111</td>
+<td>3411</td>
+<td><code>db_pago</code></td>
+<td>Pagos con Mercado Pago</td>
+<td>U2</td>
+</tr>
+<tr>
+<td><strong>carrito</strong></td>
+<td><code>services/carrito</code></td>
+<td>9121</td>
+<td>3421</td>
+<td><code>db_carrito</code></td>
+<td>Carrito de compras</td>
+<td>U2</td>
+</tr>
+</tbody>
+</table>
+<h4 id="152-catalogo-s1-hoy">1.5.2 catalogo — S1 (HOY)</h4>
+<pre class="mermaid"><code>flowchart LR
+    C1["Cliente&lt;br/&gt;Swagger / curl"]
+    S1["catalogo&lt;br/&gt;services/catalogo&lt;br/&gt;9081"]
+    D1[("db_catalogo&lt;br/&gt;MySQL&lt;br/&gt;3381")]
+    C1 --&gt; S1 --&gt; D1
+    classDef today fill:#ffe08a,stroke:#9a6b00,stroke-width:2px,color:#111;
+    class S1 today;</code></pre>
+<h4 id="153-auth">1.5.3 auth</h4>
+<pre class="mermaid"><code>flowchart LR
+    C2["Cliente / Gateway"]
+    S2["auth&lt;br/&gt;services/auth&lt;br/&gt;8041"]
+    D2[("db_auth&lt;br/&gt;MySQL&lt;br/&gt;3341")]
+    C2 --&gt; S2 --&gt; D2</code></pre>
+<h4 id="154-producto">1.5.4 producto</h4>
+<pre class="mermaid"><code>flowchart LR
+    C3["Cliente / Gateway"]
+    S3["producto&lt;br/&gt;services/producto&lt;br/&gt;9091"]
+    D3[("db_producto&lt;br/&gt;MySQL&lt;br/&gt;3391")]
+    Cat3["catalogo&lt;br/&gt;9081"]
+    C3 --&gt; S3 --&gt; D3
+    S3 --&gt;|"consulta categoría"| Cat3</code></pre>
+<h4 id="155-pedido">1.5.5 pedido</h4>
+<pre class="mermaid"><code>flowchart LR
+    C4["Cliente / Gateway"]
+    S4["pedido&lt;br/&gt;services/pedido&lt;br/&gt;9101"]
+    D4[("db_pedido&lt;br/&gt;MySQL&lt;br/&gt;3401")]
+    K4["Kafka&lt;br/&gt;29092"]
+    C4 --&gt; S4 --&gt; D4
+    S4 --&gt;|"pedido-eventos"| K4</code></pre>
+<h4 id="156-pago">1.5.6 pago</h4>
+<pre class="mermaid"><code>flowchart LR
+    C5["Cliente / Gateway"]
+    S5["pago&lt;br/&gt;services/pago&lt;br/&gt;9111"]
+    D5[("db_pago&lt;br/&gt;MySQL&lt;br/&gt;3411")]
+    K5["Kafka&lt;br/&gt;29092"]
+    MP5["Mercado Pago"]
+    C5 --&gt; S5 --&gt; D5
+    K5 --&gt;|"pedido-eventos"| S5
+    S5 --&gt;|"pago-eventos"| K5
+    S5 --&gt; MP5</code></pre>
+<h4 id="157-carrito">1.5.7 carrito</h4>
+<pre class="mermaid"><code>flowchart LR
+    C6["Cliente / Gateway"]
+    S6["carrito&lt;br/&gt;services/carrito&lt;br/&gt;9121"]
+    D6[("db_carrito&lt;br/&gt;MySQL&lt;br/&gt;3421")]
+    C6 --&gt; S6 --&gt; D6</code></pre>
+<p><strong>Próximas sesiones U1:</strong> S2 config centralizada (<code>infra/config-server</code>), S3 registro Eureka (<code>infra/registry-server</code>), S4 Gateway (<code>infra/gateway</code>) y balanceo entre instancias. La evaluación U1 valida el sistema base integrado de TechStore.</p>
+<h2 id="2-explica">2. Explica</h2>
+<p>Tiempo: 15 min.</p>
+<h3 id="21-conceptos-clave">2.1 Conceptos clave</h3>
+<p>Un microservicio debe tener responsabilidad clara, persistencia propia, configuración por ambiente y capacidad de ejecutarse de forma independiente.</p>
+<p>Ejemplo: <code>catalogo</code> se encarga de gestionar categorías y su propia base de datos <code>db_catalogo</code>. No debería guardar productos, pedidos ni pagos. Si más adelante <code>producto</code> necesita saber a qué categoría pertenece un artículo, consulta a <code>catalogo</code> por red en lugar de leer directamente su base de datos.</p>
+<h3 id="22-arquitectura-del-producto-en-techstore">2.2 Arquitectura del producto en <strong>TechStore</strong></h3>
+<p>Cada microservicio de TechStore repite el mismo patrón de despliegue: en <strong>DEV</strong> la aplicación Spring Boot corre con Maven en el host y MySQL corre en Docker; en <strong>PROD local</strong> aplicación y MySQL van en contenedores conectados a la red <code>ms-net</code>.</p>
+<h4 id="221-regla-practica-general">2.2.1 Regla práctica general</h4>
+<ul>
+<li><strong>DEV:</strong> <code>mvn spring-boot:run</code> en el host + <code>docker compose -f services/producto/docker-compose-dev.yml up -d</code> para MySQL.</li>
+<li><strong>PROD local:</strong> <code>docker compose up -d</code> levanta app (jar) y MySQL en la red interna del servicio (<code>*-int</code>) más <code>ms-net</code>.</li>
+<li><strong>Host vs contenedor:</strong> fuera de Docker usa <code>localhost:&lt;puerto-publicado&gt;</code>; dentro de Docker usa <code>mysql-&lt;servicio&gt;:3306</code>.</li>
+<li><strong>S1:</strong> solo construyes <code>catalogo</code>; los demás diagramas son referencia del monorepo.</li>
+</ul>
+<h4 id="222-microservicio-catalogo">2.2.2 catalogo — S1 (HOY)</h4>
+<p><code>services/catalogo</code> — categorías del catálogo.</p>
+<p><strong>DEV: aplicación fuera de Docker</strong></p>
+<pre class="mermaid"><code>flowchart TB
+    DevClient["Cliente&lt;br/&gt;PowerShell / bash / Swagger"]
+    DevApp["catalogo&lt;br/&gt;Java 17 + Maven&lt;br/&gt;localhost:9081"]
+    subgraph DevDocker["Docker: solo MySQL DEV"]
+        DevDb[("db_catalogo&lt;br/&gt;MySQL 8.4&lt;br/&gt;localhost:3381 -&gt; 3306")]
+    end
+    DevClient --&gt;|"localhost:9081"| DevApp
+    DevApp --&gt;|"localhost:3381"| DevDb
+    classDef app fill:#eef6ff,stroke:#2b6cb0,color:#111;
+    classDef db fill:#fff4de,stroke:#b7791f,color:#111;
+    classDef today fill:#ffe08a,stroke:#9a6b00,stroke-width:2px,color:#111;
+    class DevApp today;
+    class DevDb db;</code></pre>
+<p><strong>PROD local: aplicación dentro de Docker</strong></p>
+<pre class="mermaid"><code>flowchart TB
+    ProdClient["Cliente interno&lt;br/&gt;curl / Gateway"]
+    subgraph ProdDocker["Docker Network: catalogo-int + ms-net"]
+        ProdApp["catalogo&lt;br/&gt;jar&lt;br/&gt;8082"]
+        ProdDb[("db_catalogo&lt;br/&gt;MySQL 8.4&lt;br/&gt;mysql-catalogo:3306")]
+    end
+    ProdClient --&gt;|"catalogo:8082"| ProdApp
+    ProdApp --&gt;|"mysql-catalogo:3306"| ProdDb
+    classDef app fill:#eef6ff,stroke:#2b6cb0,color:#111;
+    classDef db fill:#fff4de,stroke:#b7791f,color:#111;
+    class ProdApp app;
+    class ProdDb db;</code></pre>
+<ul>
+<li>DEV: <code>services/catalogo/docker-compose-dev.yml</code> — MySQL en <code>3381</code>.</li>
+<li>PROD local: <code>services/catalogo/docker-compose.yml</code> — app <code>8082</code>, MySQL host <code>3382</code>.</li>
+</ul>
+<h4 id="223-microservicio-auth">2.2.3 auth</h4>
+<p><code>services/auth</code> — usuarios, login y JWT.</p>
+<p><strong>DEV: aplicación fuera de Docker</strong></p>
+<pre class="mermaid"><code>flowchart TB
+    DevClient["Cliente / Gateway"]
+    DevApp["auth&lt;br/&gt;Java 17 + Maven&lt;br/&gt;localhost:8041"]
+    subgraph DevDocker["Docker: solo MySQL DEV"]
+        DevDb[("db_auth&lt;br/&gt;MySQL 8.4&lt;br/&gt;localhost:3341 -&gt; 3306")]
+    end
+    DevClient --&gt;|"localhost:8041"| DevApp
+    DevApp --&gt;|"localhost:3341"| DevDb
+    classDef app fill:#eef6ff,stroke:#2b6cb0,color:#111;
+    classDef db fill:#fff4de,stroke:#b7791f,color:#111;
+    class DevApp app;
+    class DevDb db;</code></pre>
+<p><strong>PROD local: aplicación dentro de Docker</strong></p>
+<pre class="mermaid"><code>flowchart TB
+    ProdClient["Gateway / curl"]
+    subgraph ProdDocker["Docker Network: auth-int + ms-net"]
+        ProdApp["auth&lt;br/&gt;jar&lt;br/&gt;8042"]
+        ProdDb[("db_auth&lt;br/&gt;MySQL 8.4&lt;br/&gt;mysql-auth:3306")]
+    end
+    ProdClient --&gt;|"auth:8042"| ProdApp
+    ProdApp --&gt;|"mysql-auth:3306"| ProdDb
+    classDef app fill:#eef6ff,stroke:#2b6cb0,color:#111;
+    classDef db fill:#fff4de,stroke:#b7791f,color:#111;
+    class ProdApp app;
+    class ProdDb db;</code></pre>
+<ul>
+<li>DEV: MySQL <code>3341</code> — sesión S7 (seguridad JWT).</li>
+<li>PROD local: app <code>8042</code>, MySQL host <code>3342</code>.</li>
+</ul>
+<h4 id="224-microservicio-producto">2.2.4 producto</h4>
+<p><code>services/producto</code> — productos, stock e imágenes. Consulta categorías en <code>catalogo</code>.</p>
+<p><strong>DEV: aplicación fuera de Docker</strong></p>
+<pre class="mermaid"><code>flowchart TB
+    DevClient["Cliente / Gateway"]
+    DevApp["producto&lt;br/&gt;Java 17 + Maven&lt;br/&gt;localhost:9091"]
+    DevCat["catalogo&lt;br/&gt;9081"]
+    subgraph DevDocker["Docker: solo MySQL DEV"]
+        DevDb[("db_producto&lt;br/&gt;MySQL 8.4&lt;br/&gt;localhost:3391 -&gt; 3306")]
+    end
+    DevClient --&gt;|"localhost:9091"| DevApp
+    DevApp --&gt;|"localhost:3391"| DevDb
+    DevApp --&gt;|"consulta categoría"| DevCat
+    classDef app fill:#eef6ff,stroke:#2b6cb0,color:#111;
+    classDef db fill:#fff4de,stroke:#b7791f,color:#111;
+    class DevApp app;
+    class DevDb db;</code></pre>
+<p><strong>PROD local: aplicación dentro de Docker</strong></p>
+<pre class="mermaid"><code>flowchart TB
+    ProdClient["Gateway / curl"]
+    subgraph ProdDocker["Docker Network: producto-int + ms-net"]
+        ProdApp["producto&lt;br/&gt;jar&lt;br/&gt;9092"]
+        ProdDb[("db_producto&lt;br/&gt;MySQL 8.4&lt;br/&gt;mysql-producto:3306")]
+    end
+    ProdClient --&gt;|"producto:9092"| ProdApp
+    ProdApp --&gt;|"mysql-producto:3306"| ProdDb
+    classDef app fill:#eef6ff,stroke:#2b6cb0,color:#111;
+    classDef db fill:#fff4de,stroke:#b7791f,color:#111;
+    class ProdApp app;
+    class ProdDb db;</code></pre>
+<ul>
+<li>DEV: MySQL <code>3391</code> — trabajo aplicado en U1.</li>
+<li>PROD local: app <code>9092</code>, MySQL host <code>3392</code>.</li>
+</ul>
+<h4 id="225-microservicio-pedido">2.2.5 pedido</h4>
+<p><code>services/pedido</code> — pedidos de compra. Publica eventos a Kafka.</p>
+<p><strong>DEV: aplicación fuera de Docker</strong></p>
+<pre class="mermaid"><code>flowchart TB
+    DevClient["Cliente / Gateway"]
+    DevApp["pedido&lt;br/&gt;Java 17 + Maven&lt;br/&gt;localhost:9101"]
+    DevKafka["Kafka&lt;br/&gt;29092"]
+    subgraph DevDocker["Docker: solo MySQL DEV"]
+        DevDb[("db_pedido&lt;br/&gt;MySQL 8.4&lt;br/&gt;localhost:3401 -&gt; 3306")]
+    end
+    DevClient --&gt;|"localhost:9101"| DevApp
+    DevApp --&gt;|"localhost:3401"| DevDb
+    DevApp --&gt;|"pedido-eventos"| DevKafka
+    classDef app fill:#eef6ff,stroke:#2b6cb0,color:#111;
+    classDef db fill:#fff4de,stroke:#b7791f,color:#111;
+    class DevApp app;
+    class DevDb db;</code></pre>
+<p><strong>PROD local: aplicación dentro de Docker</strong></p>
+<pre class="mermaid"><code>flowchart TB
+    ProdClient["Gateway / curl"]
+    subgraph ProdDocker["Docker Network: pedido-int + ms-net"]
+        ProdApp["pedido&lt;br/&gt;jar&lt;br/&gt;9102"]
+        ProdDb[("db_pedido&lt;br/&gt;MySQL 8.4&lt;br/&gt;mysql-pedido:3306")]
+    end
+    ProdClient --&gt;|"pedido:9102"| ProdApp
+    ProdApp --&gt;|"mysql-pedido:3306"| ProdDb
+    classDef app fill:#eef6ff,stroke:#2b6cb0,color:#111;
+    classDef db fill:#fff4de,stroke:#b7791f,color:#111;
+    class ProdApp app;
+    class ProdDb db;</code></pre>
+<ul>
+<li>DEV: MySQL <code>3401</code> — U2.</li>
+<li>PROD local: app <code>9102</code>, MySQL host <code>3402</code>.</li>
+</ul>
+<h4 id="226-microservicio-pago">2.2.6 pago</h4>
+<p><code>services/pago</code> — pagos con Mercado Pago. Consume eventos de pedido por Kafka.</p>
+<p><strong>DEV: aplicación fuera de Docker</strong></p>
+<pre class="mermaid"><code>flowchart TB
+    DevClient["Cliente / Gateway"]
+    DevApp["pago&lt;br/&gt;Java 17 + Maven&lt;br/&gt;localhost:9111"]
+    DevKafka["Kafka&lt;br/&gt;29092"]
+    DevMP["Mercado Pago"]
+    subgraph DevDocker["Docker: solo MySQL DEV"]
+        DevDb[("db_pago&lt;br/&gt;MySQL 8.4&lt;br/&gt;localhost:3411 -&gt; 3306")]
+    end
+    DevClient --&gt;|"localhost:9111"| DevApp
+    DevApp --&gt;|"localhost:3411"| DevDb
+    DevKafka --&gt;|"pedido-eventos"| DevApp
+    DevApp --&gt;|"pago-eventos"| DevKafka
+    DevApp --&gt; DevMP
+    classDef app fill:#eef6ff,stroke:#2b6cb0,color:#111;
+    classDef db fill:#fff4de,stroke:#b7791f,color:#111;
+    classDef external fill:#fff3cd,stroke:#b7791f,stroke-width:2px,color:#5f370e;
+    class DevApp app;
+    class DevDb db;
+    class DevMP external;</code></pre>
+<p><strong>PROD local: aplicación dentro de Docker</strong></p>
+<pre class="mermaid"><code>flowchart TB
+    ProdClient["Gateway / curl"]
+    ProdMP["Mercado Pago"]
+    subgraph ProdDocker["Docker Network: pago-int + ms-net"]
+        ProdApp["pago&lt;br/&gt;jar&lt;br/&gt;9112"]
+        ProdDb[("db_pago&lt;br/&gt;MySQL 8.4&lt;br/&gt;mysql-pago:3306")]
+    end
+    ProdClient --&gt;|"pago:9112"| ProdApp
+    ProdApp --&gt;|"mysql-pago:3306"| ProdDb
+    ProdApp --&gt; ProdMP
+    classDef app fill:#eef6ff,stroke:#2b6cb0,color:#111;
+    classDef db fill:#fff4de,stroke:#b7791f,color:#111;
+    classDef external fill:#fff3cd,stroke:#b7791f,stroke-width:2px,color:#5f370e;
+    class ProdApp app;
+    class ProdDb db;
+    class ProdMP external;</code></pre>
+<ul>
+<li>DEV: MySQL <code>3411</code> — U2.</li>
+<li>PROD local: app <code>9112</code>, MySQL host <code>3412</code>.</li>
+</ul>
+<h4 id="227-microservicio-carrito">2.2.7 carrito</h4>
+<p><code>services/carrito</code> — carrito de compras por usuario.</p>
+<p><strong>DEV: aplicación fuera de Docker</strong></p>
+<pre class="mermaid"><code>flowchart TB
+    DevClient["Cliente / Gateway"]
+    DevApp["carrito&lt;br/&gt;Java 17 + Maven&lt;br/&gt;localhost:9121"]
+    subgraph DevDocker["Docker: solo MySQL DEV"]
+        DevDb[("db_carrito&lt;br/&gt;MySQL 8.4&lt;br/&gt;localhost:3421 -&gt; 3306")]
+    end
+    DevClient --&gt;|"localhost:9121"| DevApp
+    DevApp --&gt;|"localhost:3421"| DevDb
+    classDef app fill:#eef6ff,stroke:#2b6cb0,color:#111;
+    classDef db fill:#fff4de,stroke:#b7791f,color:#111;
+    class DevApp app;
+    class DevDb db;</code></pre>
+<p><strong>PROD local: aplicación dentro de Docker</strong></p>
+<pre class="mermaid"><code>flowchart TB
+    ProdClient["Gateway / curl"]
+    subgraph ProdDocker["Docker Network: carrito-int + ms-net"]
+        ProdApp["carrito&lt;br/&gt;jar&lt;br/&gt;9122"]
+        ProdDb[("db_carrito&lt;br/&gt;MySQL 8.4&lt;br/&gt;mysql-carrito:3306")]
+    end
+    ProdClient --&gt;|"carrito:9122"| ProdApp
+    ProdApp --&gt;|"mysql-carrito:3306"| ProdDb
+    classDef app fill:#eef6ff,stroke:#2b6cb0,color:#111;
+    classDef db fill:#fff4de,stroke:#b7791f,color:#111;
+    class ProdApp app;
+    class ProdDb db;</code></pre>
+<ul>
+<li>DEV: MySQL <code>3421</code> — <code>services/carrito/docker-compose-dev.yml</code>.</li>
+<li>PROD local: app <code>9122</code> según <code>infra/config-repo/carrito-prod.yml</code> (mismo patrón que los demás servicios).</li>
+</ul>
+<h4 id="228-flujos-de-trabajo">2.2.8 Flujos de trabajo por microservicio</h4>
+<p>Cada microservicio de TechStore sigue el mismo patrón de 7 pasos: preparar ambiente, levantar MySQL DEV, implementar su dominio, probar en DEV, preparar PROD local, probar en Docker y registrar evidencias. <strong>En S1 solo ejecutas el flujo de <code>catalogo</code></strong>; los demás son referencia para sesiones posteriores.</p>
+<h4 id="229-flujo-catalogo">2.2.9 catalogo — S1 (HOY)</h4>
+<p><code>services/catalogo</code> — CRUD de categorías.</p>
+<ol>
+<li>Preparar ambiente (Java 17, Maven, Docker).</li>
+<li>Revisar o crear el proyecto en <code>services/catalogo</code> y levantar MySQL DEV (<code>3381</code>, base <code>db_catalogo</code>).</li>
+<li>Construir el CRUD de <code>Categoria</code>.</li>
+<li>Ejecutar y probar en DEV (<code>localhost:9081</code>) — <code>/api/v1/categorias</code>, <code>/actuator/health</code>, <code>/swagger-ui.html</code>.</li>
+<li>Preparar archivos de PROD local (<code>docker-compose.yml</code>, <code>.env</code>).</li>
+<li>Ejecutar y probar en Docker (<code>8082</code>).</li>
+<li>Registrar evidencias y defender el resultado.</li>
+</ol>
+<h4 id="230-flujo-auth">2.2.10 auth — S7 (seguridad JWT)</h4>
+<p><code>services/auth</code> — login, registro y tokens JWT.</p>
+<ol>
+<li>Preparar ambiente (Java 17, Maven, Docker).</li>
+<li>Revisar el proyecto en <code>services/auth</code> y levantar MySQL DEV (<code>3341</code>, base <code>db_auth</code>).</li>
+<li>Implementar autenticación: <code>AuthController</code>, usuarios y JWT (<code>/auth/login</code>, <code>/auth/register</code>).</li>
+<li>Ejecutar y probar en DEV (<code>localhost:8041</code>) — config en <code>infra/config-repo/auth-dev.yml</code>.</li>
+<li>Preparar archivos de PROD local (<code>services/auth/docker-compose.yml</code>).</li>
+<li>Ejecutar y probar en Docker (<code>8042</code>).</li>
+<li>Registrar evidencias (login exitoso, token JWT, health).</li>
+</ol>
+<h4 id="231-flujo-producto">2.2.11 producto — U1 (trabajo aplicado)</h4>
+<p><code>services/producto</code> — CRUD de productos e imágenes.</p>
+<ol>
+<li>Preparar ambiente (Java 17, Maven, Docker).</li>
+<li>Revisar el proyecto en <code>services/producto</code> y levantar MySQL DEV (<code>3391</code>, base <code>db_producto</code>).</li>
+<li>Construir el CRUD de <code>Producto</code> (consulta categorías en <code>catalogo</code>).</li>
+<li>Ejecutar y probar en DEV (<code>localhost:9091</code>) — <code>/api/v1/productos</code>.</li>
+<li>Preparar archivos de PROD local (<code>docker-compose.yml</code>).</li>
+<li>Ejecutar y probar en Docker (<code>9092</code>).</li>
+<li>Registrar evidencias y defender el resultado.</li>
+</ol>
+<h4 id="232-flujo-pedido">2.2.12 pedido — U2</h4>
+<p><code>services/pedido</code> — gestión de pedidos y eventos Kafka.</p>
+<ol>
+<li>Preparar ambiente (Java 17, Maven, Docker) y Kafka DEV (<code>kafka/</code>, puerto <code>29092</code>).</li>
+<li>Revisar el proyecto en <code>services/pedido</code> y levantar MySQL DEV (<code>3401</code>, base <code>db_pedido</code>).</li>
+<li>Implementar CRUD de <code>Pedido</code> y publicación de eventos a Kafka.</li>
+<li>Ejecutar y probar en DEV (<code>localhost:9101</code>) — <code>/api/v1/pedidos</code>.</li>
+<li>Preparar archivos de PROD local (<code>docker-compose.yml</code>).</li>
+<li>Ejecutar y probar en Docker (<code>9102</code>).</li>
+<li>Registrar evidencias (creación de pedido y evento en Kafka).</li>
+</ol>
+<h4 id="233-flujo-pago">2.2.13 pago — U2</h4>
+<p><code>services/pago</code> — pagos y integración con Mercado Pago.</p>
+<ol>
+<li>Preparar ambiente (Java 17, Maven, Docker) y Kafka DEV.</li>
+<li>Revisar el proyecto en <code>services/pago</code> y levantar MySQL DEV (<code>3411</code>, base <code>db_pago</code>).</li>
+<li>Implementar flujo de <code>Pago</code> y consumo de eventos de pedido.</li>
+<li>Ejecutar y probar en DEV (<code>localhost:9111</code>) — <code>/api/v1/pagos</code>, config Mercado Pago si aplica.</li>
+<li>Preparar archivos de PROD local (<code>docker-compose.yml</code>).</li>
+<li>Ejecutar y probar en Docker (<code>9112</code>).</li>
+<li>Registrar evidencias (pago registrado y confirmación).</li>
+</ol>
+<h4 id="234-flujo-carrito">2.2.14 carrito — U2</h4>
+<p><code>services/carrito</code> — carrito de compras por usuario.</p>
+<ol>
+<li>Preparar ambiente (Java 17, Maven, Docker).</li>
+<li>Revisar el proyecto en <code>services/carrito</code> y levantar MySQL DEV (<code>3421</code>, base <code>db_carrito</code>).</li>
+<li>Implementar CRUD del carrito: ítems, cantidades y totales (<code>/api/v1/carritos</code>).</li>
+<li>Ejecutar y probar en DEV (<code>localhost:9121</code>).</li>
+<li>Preparar archivos de PROD local (mismo patrón; puerto <code>9122</code> en <code>carrito-prod.yml</code>).</li>
+<li>Ejecutar y probar en Docker (<code>9122</code>).</li>
+<li>Registrar evidencias y defender el resultado.</li>
+</ol>
+<h3 id="23-observabilidad-y-diagnostico">2.3 Observabilidad y diagnóstico</h3>
+<p>La observabilidad inicia desde S1 como hábito transversal. En TechStore, el stack completo (Prometheus, Loki, Grafana en <code>observability/</code>) se consolida en S10; en S1 el estudiante revisa señales básicas del microservicio <code>catalogo</code> y usa los errores como insumo de diagnóstico.</p>
+<h4 id="231-senales-basicas-a-revisar">2.3.1 Señales básicas a revisar</h4>
+<ul>
+<li>Logs de arranque de <code>catalogo</code> (consola Maven o <code>services/catalogo/logs</code>).</li>
+<li>Puerto DEV fijo <code>9081</code> y puerto PROD local <code>8082</code>.</li>
+<li>Estado de <code>http://localhost:9081/actuator/health</code> (debe responder <code>UP</code>).</li>
+<li>Métricas en <code>/actuator/metrics</code> y, si está expuesto, <code>/actuator/prometheus</code>.</li>
+<li>Conexión a MySQL DEV: contenedor activo y acceso por <code>localhost:3381</code>.</li>
+<li>Esquema de BD: en DEV <code>catalogo</code> usa JPA <code>ddl-auto: update</code> (Flyway deshabilitado en <code>catalogo-dev.yml</code>).</li>
+<li>Errores de validación HTTP 400 en el CRUD de categorías.</li>
+<li>Logs del contenedor MySQL: <code>docker compose -f docker-compose-dev.yml logs</code>.</li>
+</ul>
+<h4 id="232-errores-frecuentes-y-diagnostico">2.3.2 Errores frecuentes y diagnóstico</h4>
+<table>
+<thead>
+<tr>
+<th>Problema</th>
+<th>Causa probable</th>
+<th>Solución en TechStore</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No conecta a BD</td>
+<td>MySQL DEV apagado o puerto incorrecto</td>
+<td>En <code>services/catalogo</code> ejecutar <code>docker compose -f docker-compose-dev.yml up -d</code> y verificar <code>3381</code> y credenciales <code>root/root</code> en <code>catalogo-dev.yml</code></td>
+</tr>
+<tr>
+<td>Swagger no abre</td>
+<td>Puerto incorrecto o app no levantada</td>
+<td>Confirmar que <code>catalogo</code> corre en <code>http://localhost:9081/swagger-ui.html</code></td>
+</tr>
+<tr>
+<td>Validación no responde</td>
+<td>Falta <code>@Valid</code> o anotaciones en DTO</td>
+<td>Revisar <code>CategoriaController</code> y DTOs en <code>services/catalogo</code></td>
+</tr>
+<tr>
+<td>PROD local no responde desde host</td>
+<td>Contenedor no publica puerto o red incorrecta</td>
+<td>Revisar <code>docker-compose.yml</code> (app <code>8082</code>) y red <code>catalogo-int</code> + <code>ms-net</code></td>
+</tr>
+<tr>
+<td>Config Server no responde</td>
+<td>Normal en S1 si aún no levantaste infra</td>
+<td>En S1 puedes arrancar sin Config/Eureka; se integran en S2 y S3</td>
+</tr>
+<tr>
+<td>Escalado consume demasiados recursos</td>
+<td>Muchas instancias locales abiertas</td>
+<td>En S1 basta una instancia de <code>catalogo</code>; máximo dos cuando practiques escalado en S3/S4</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-aplica-actividad-practica-guiada">3. Aplica: actividad práctica guiada</h2>
+<p>En el laboratorio, el docente guía <code>catalogo</code> en S1; los estudiantes verifican con comandos de consola. El mismo flujo aplica a los seis microservicios TechStore (tabla 3.2.0).</p>
+<p>Tiempo: 3h.</p>
+<p>En <strong>TechStore-Proyecto</strong> (<code>ProyectoMS2026</code>), el monorepo incluye los microservicios <code>catalogo</code>, <code>auth</code>, <code>producto</code>, <code>pedido</code>, <code>pago</code> y <code>carrito</code>, más la infraestructura en <code>infra/</code> (config-server, registry-server, gateway), Kafka en <code>kafka/</code>, observabilidad en <code>observability/</code>, frontend Angular en <code>techstore-proyecto</code> y documentación en <code>techstore-gh-pages</code>. En <strong>S1</strong> el docente guía <code>services/catalogo</code> y el estudiante puede replicar el patrón en <code>services/producto</code> como trabajo aplicado. Los demás servicios se integran en sesiones posteriores: <code>auth</code> (S7), <code>pedido</code> y <code>pago</code> con Kafka y Mercado Pago (U2), <code>carrito</code> (U2). La versión actual usa monorepo, MySQL 8 en Docker, puertos fijos por servicio y configuración centralizada en <code>infra/config-repo</code>.</p>
+<ul>
+<li><strong>S1 (hoy):</strong> crear o revisar <code>catalogo</code> — entidad <code>Categoria</code>, puerto DEV <code>9081</code>.</li>
+<li><strong>U1 (aplicado):</strong> replicar patrón en <code>producto</code> — entidad <code>Producto</code>, puerto DEV <code>9091</code>.</li>
+<li><strong>S7:</strong> <code>auth</code> — login, registro y JWT, puerto DEV <code>8041</code>.</li>
+<li><strong>U2:</strong> <code>pedido</code> (<code>9101</code>), <code>pago</code> (<code>9111</code>) y <code>carrito</code> (<code>9121</code>) con sus bases MySQL y Kafka donde aplique.</li>
+<li>Implementar entidad, repositorio, servicio y controlador en el servicio de la sesión.</li>
+<li>Levantar MySQL DEV con <code>docker-compose-dev.yml</code> y probar endpoints.</li>
+<li>Revisar Swagger, <code>/actuator/health</code> y README del servicio.</li>
+<li>Cerrar con una ejecución breve en producción local con Docker.</li>
+</ul>
+<h3 id="31-preparar-ambiente-local-java-17-maven-docker-y-vs-code">3.1 Preparar ambiente local: Java 17, Maven, Docker y VS Code</h3>
+<p><strong>Producto del paso:</strong> ambiente local con Java 17, Maven, Docker, Docker Compose y VS Code verificados, listo para crear y ejecutar el microservicio.</p>
+<p>Antes de crear el microservicio, el estudiante debe preparar el entorno DEV. En esta sesión Java y Maven se ejecutan en el host; MySQL no se instala en el host, se levanta con Docker desde el paso 3.2.</p>
+<p><strong>Herramientas necesarias</strong></p>
+<ul>
+<li>Java 17.</li>
+<li>Maven 3.x.</li>
+<li>Docker Desktop.</li>
+<li>VS Code.</li>
+<li>Extension Pack for Java.</li>
+<li>Spring Boot Extension Pack.</li>
+</ul>
+<p>Puedes usar otro IDE si ya lo dominas, pero en este curso se trabajara con VS Code para mantener una guía común. Aún usando IDE, la ejecución recomendada del microservicio será desde la consola de comandos, al estilo de un servidor Linux.</p>
+<h4 id="311-instalar-gestor-de-paquetes-en-windows-o-macos-si-no-existe">3.1.1 Instalar gestor de paquetes en Windows o macOS, si no existe</h4>
+<p>Si trabajas en Windows y no tienes Chocolatey, abre PowerShell como administrador y ejecuta:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Set-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="n">-Scope</span> <span class="k">Process</span> <span class="n">-Force</span><span class="p">;</span> <span class="no">[System.Net.ServicePointManager]</span><span class="p">::</span><span class="n">SecurityProtocol</span> <span class="p">=</span> <span class="no">[System.Net.ServicePointManager]</span><span class="p">::</span><span class="n">SecurityProtocol</span> <span class="o">-bor</span> <span class="n">3072</span><span class="p">;</span> <span class="nb">iex </span><span class="p">((</span><span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">DownloadString</span><span class="p">(</span><span class="s1">&#39;https://community.chocolatey.org/install.ps1&#39;</span><span class="p">))</span>
+</code></pre></div>
+<p>Luego cierra y vuelve a abrir PowerShell.</p>
+<p>Si no vas a usar Chocolatey para instalar Java en Windows, también puedes descargar Java 17 directamente desde https://adoptium.net.</p>
+<p>Si trabajas en macOS y no tienes Homebrew, abre Terminal y ejecuta:</p>
+<div class="highlight"><pre><span></span><code>/bin/bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="k">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p>Luego cierra y vuelve a abrir Terminal.</p>
+<h4 id="312-instalar-o-verificar-java-17">3.1.2 Instalar o verificar Java 17</h4>
+<p>En Windows con Chocolatey:</p>
+<div class="highlight"><pre><span></span><code><span class="n">choco</span> <span class="n">install</span> <span class="n">temurin17</span> <span class="n">-y</span>
+</code></pre></div>
+<p>En macOS con Homebrew:</p>
+<div class="highlight"><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>--cask<span class="w"> </span>temurin@17
+</code></pre></div>
+<p>En Linux Debian/Ubuntu:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>openjdk-17-jdk
+</code></pre></div>
+<p>Verificar instalación:</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>java<span class="w"> </span>-version
+</code></pre></div>
+<p>Resultado esperado:</p>
+<div class="highlight"><pre><span></span><code>versión 17
+</code></pre></div>
+<h4 id="313-instalar-o-verificar-maven-3x">3.1.3 Instalar o verificar Maven 3.x</h4>
+<p>En Windows con Chocolatey:</p>
+<div class="highlight"><pre><span></span><code><span class="n">choco</span> <span class="n">install</span> <span class="n">maven</span> <span class="n">-y</span>
+</code></pre></div>
+<p>En macOS con Homebrew:</p>
+<div class="highlight"><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>maven
+</code></pre></div>
+<p>En Linux Debian/Ubuntu:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>maven
+</code></pre></div>
+<p>Verificar instalación:</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>mvn<span class="w"> </span>-version
+</code></pre></div>
+<p>Resultado esperado:</p>
+<div class="highlight"><pre><span></span><code>Apache Maven
+Java versión: 17
+</code></pre></div>
+<p>Uso esperado de Maven: ubicarse en la carpeta donde esta el <code>pom.xml</code> del microservicio y ejecutar:</p>
+<div class="highlight"><pre><span></span><code>mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<h4 id="314-instalar-o-verificar-docker-desktop-y-docker-compose">3.1.4 Instalar o verificar Docker Desktop y Docker Compose</h4>
+<p>Opcional recomendado: antes de iniciar el laboratorio, crea una cuenta gratuita en Docker Hub:</p>
+<div class="highlight"><pre><span></span><code>https://hub.docker.com/signup
+</code></pre></div>
+<p>Docker funciona sin iniciar sesión, pero Docker Hub puede aplicar límites de descarga de imagenes. En equipos de laboratorio o redes compartidas, iniciar sesión ayuda a evitar bloqueos durante la descarga de imagenes como MySQL.</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>login
+</code></pre></div>
+<p>En Windows, Docker Compose se instala junto con Docker Desktop:</p>
+<div class="highlight"><pre><span></span><code>https://www.docker.com/products/docker-desktop
+</code></pre></div>
+<p>En macOS, Docker Compose también viene incluido con Docker Desktop:</p>
+<div class="highlight"><pre><span></span><code>https://www.docker.com/products/docker-desktop
+</code></pre></div>
+<p>En Linux puedes usar Docker Engine con el plugin Compose siguiendo la documentación oficial de Docker:</p>
+<div class="highlight"><pre><span></span><code>https://docs.docker.com/engine/install/
+https://docs.docker.com/compose/install/linux/
+</code></pre></div>
+<p>Verificar Docker:</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>version
+docker<span class="w"> </span>compose<span class="w"> </span>version
+docker<span class="w"> </span>ps
+</code></pre></div>
+<p>Resultado esperado:</p>
+<div class="highlight"><pre><span></span><code>Docker versión
+Docker Compose versión
+</code></pre></div>
+<h4 id="315-abrir-el-proyecto-en-vs-code">3.1.5 Abrir el proyecto en VS Code</h4>
+<p>Ubícate en la raíz del monorepo <strong>TechStore-Proyecto</strong> (<code>ProyectoMS2026</code>), no dentro de un microservicio específico. VS Code soporta trabajar con múltiples carpetas en el mismo workspace; abrir la raíz evita tener una ventana distinta por cada microservicio (<code>catalogo</code>, <code>auth</code>, <code>producto</code>, <code>pedido</code>, <code>pago</code>, <code>carrito</code>).</p>
+<p>PowerShell (Windows):</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> D:\ProyectoMS2026pro\ProyectoMS2026
+code .
+</code></pre></div>
+<p>bash macOS/Linux (ajusta la ruta si clonaste el repo en otro directorio):</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> ~/ProyectoMS2026pro/ProyectoMS2026
+code .
+</code></pre></div>
+<p>Para trabajar solo en un microservicio durante el laboratorio (por ejemplo S1 con <code>catalogo</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> D:\ProyectoMS2026pro\ProyectoMS2026\services\catalogo
+code .
+</code></pre></div>
+<p>Desde VS Code, confirmar que se reconoce el proyecto Java y que las extensiones de Spring Boot están disponibles.</p>
+<p><strong>Evidencia de cierre del paso 3.1</strong></p>
+<ul>
+<li>Salida de <code>java -version</code>.</li>
+<li>Salida de <code>mvn -version</code>.</li>
+<li>Salida de <code>docker version</code>.</li>
+<li>Salida de <code>docker compose version</code>.</li>
+<li>VS Code abierto en la raíz del monorepo <code>ProyectoMS2026</code> (TechStore-Proyecto).</li>
+</ul>
+<h3 id="32-crear-el-proyecto-spring-boot-desde-vs-code-con-dependencias-base">3.2 Crear microservicios Spring Boot (patrón TechStore)</h3>
+<p><strong>Producto del paso (S1 — catalogo):</strong> microservicio <code>catalogo</code> en <code>services/catalogo</code>, con <code>artifactId</code> <code>catalogo</code>, paquete <code>com.upeu.catalogo</code>, MySQL DEV en Docker (<code>3381</code>) y endpoint en <code>localhost:9081</code>. El mismo procedimiento aplica a <code>auth</code>, <code>producto</code>, <code>pedido</code>, <code>pago</code> y <code>carrito</code> (ver tabla 3.2.0).</p>
+<p>En <strong>TechStore-Proyecto</strong> el servicio <code>catalogo</code> ya puede existir en el monorepo. En S1 lo revisas, completas o recreas siguiendo el mismo patrón que luego aplicarás en <code>producto</code>, <code>auth</code>, <code>pedido</code>, <code>pago</code> y <code>carrito</code>.</p>
+<p>Como el proyecto incluye <code>Spring Data JPA</code> y <code>MySQL Driver</code>, Spring Boot intentará conectar a la base de datos al arrancar. Si MySQL DEV no está levantado, el arranque fallará. No usamos H2; levantamos MySQL con Docker desde el inicio.</p>
+<h4 id="320-panorama-microservicios-techstore">3.2.0 Panorama de microservicios TechStore</h4>
+<p>TechStore-Proyecto tiene <strong>seis microservicios</strong> en <code>services/</code>. Cada uno sigue el mismo patrón: carpeta Maven, <code>docker-compose-dev.yml</code> para MySQL DEV, configuración DEV en <code>infra/config-repo/&lt;servicio&gt;-dev.yml</code> y <code>docker-compose.yml</code> para PROD local. En S1 el docente guía <code>catalogo</code>; el estudiante replica el patrón en los demás según la sesión.</p>
+<table>
+<thead>
+<tr>
+<th>Servicio</th>
+<th>Ruta</th>
+<th>Paquete</th>
+<th>Puerto DEV</th>
+<th>MySQL DEV</th>
+<th>Base de datos</th>
+<th>Puerto PROD</th>
+<th>Entidad principal</th>
+<th>Sesión</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>catalogo</code></td>
+<td><code>services/catalogo</code></td>
+<td><code>com.upeu.catalogo</code></td>
+<td>9081</td>
+<td>3381</td>
+<td><code>db_catalogo</code></td>
+<td>8082</td>
+<td><code>Categoria</code></td>
+<td><strong>S1 (hoy)</strong></td>
+</tr>
+<tr>
+<td><code>auth</code></td>
+<td><code>services/auth</code></td>
+<td><code>com.upeu.auth</code></td>
+<td>8041</td>
+<td>3341</td>
+<td><code>db_auth</code></td>
+<td>8042</td>
+<td><code>AuthUser</code>, <code>Role</code></td>
+<td>S7</td>
+</tr>
+<tr>
+<td><code>producto</code></td>
+<td><code>services/producto</code></td>
+<td><code>com.upeu.producto</code></td>
+<td>9091</td>
+<td>3391</td>
+<td><code>db_producto</code></td>
+<td>9092</td>
+<td><code>Producto</code></td>
+<td>U1 (aplicado)</td>
+</tr>
+<tr>
+<td><code>pedido</code></td>
+<td><code>services/pedido</code></td>
+<td><code>com.upeu.pedido</code></td>
+<td>9101</td>
+<td>3401</td>
+<td><code>db_pedido</code></td>
+<td>9102</td>
+<td><code>Pedido</code>, <code>PedidoItem</code></td>
+<td>U2</td>
+</tr>
+<tr>
+<td><code>pago</code></td>
+<td><code>services/pago</code></td>
+<td><code>com.upeu.pago</code></td>
+<td>9111</td>
+<td>3411</td>
+<td><code>db_pago</code></td>
+<td>9112</td>
+<td><code>Pago</code></td>
+<td>U2 (+ Mercado Pago)</td>
+</tr>
+<tr>
+<td><code>carrito</code></td>
+<td><code>services/carrito</code></td>
+<td><code>com.upeu.carrito</code></td>
+<td>9121</td>
+<td>3421</td>
+<td><code>db_carrito</code></td>
+<td>9122</td>
+<td><code>Carrito</code>, <code>CarritoItem</code></td>
+<td>U2</td>
+</tr>
+</tbody>
+</table>
+<p>Credenciales MySQL DEV en todos los servicios: usuario <code>root</code>, contraseña <code>root</code>. Para levantar solo la BD de un servicio: <code>cd services/&lt;servicio&gt;</code> y <code>docker compose -f docker-compose-dev.yml up -d</code>. Para arrancar la app: <code>mvn spring-boot:run</code> (lee Config Server en <code>localhost:7071</code> cuando esté disponible).</p>
+<p>Dependencias extra por servicio (además del núcleo Web + JPA + MySQL + Actuator + SpringDoc):</p>
+<ul>
+<li><code>auth</code>: Spring Security, OAuth2 Resource Server, JWT (jjwt).</li>
+<li><code>producto</code>, <code>pedido</code>, <code>pago</code>, <code>carrito</code>: OpenFeign, Eureka Client, Config Client.</li>
+<li><code>producto</code>: además Resilience4j y OAuth2 Resource Server.</li>
+</ul>
+<h4 id="321-crear-el-proyecto-con-spring-initializr-desde-vs-code">3.2.1 Crear el proyecto con Spring Initializr desde VS Code</h4>
+<p>Desde la raíz del monorepo <code>ProyectoMS2026</code> (TechStore), abre VS Code y ejecuta el comando:</p>
+<div class="highlight"><pre><span></span><code>Spring Initializr: Create a Maven Project
+</code></pre></div>
+<p>Usa la siguiente configuración (<strong>ejemplo S1 — catalogo</strong>; para otro servicio sustituye Artifact Id, Package y Ubicación según la tabla 3.2.0):</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Project</td>
+<td>Maven Project</td>
+</tr>
+<tr>
+<td>Spring Boot</td>
+<td>3.5.x</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>Java</td>
+</tr>
+<tr>
+<td>Java</td>
+<td>17</td>
+</tr>
+<tr>
+<td>Group Id</td>
+<td><code>com.upeu</code></td>
+</tr>
+<tr>
+<td>Artifact Id</td>
+<td><code>catalogo</code></td>
+</tr>
+<tr>
+<td>Package name</td>
+<td><code>com.upeu.catalogo</code></td>
+</tr>
+<tr>
+<td>Packaging</td>
+<td>Jar</td>
+</tr>
+<tr>
+<td>Ubicación</td>
+<td><code>services/catalogo</code></td>
+</tr>
+</tbody>
+</table>
+<p>Dependencias a seleccionar:</p>
+<table>
+<thead>
+<tr>
+<th>Grupo</th>
+<th>Dependencias</th>
+<th>Propósito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API REST base</td>
+<td>Spring Web, Validation</td>
+<td>Exponer endpoints HTTP y validar entradas</td>
+</tr>
+<tr>
+<td>Productividad</td>
+<td>Lombok, Spring Boot DevTools</td>
+<td>Reducir código repetitivo y facilitar ejecución en desarrollo</td>
+</tr>
+<tr>
+<td>Documentación y operación</td>
+<td>SpringDoc OpenAPI WebMvc UI, Spring Boot Actuator</td>
+<td>Documentar la API con Swagger y verificar health</td>
+</tr>
+<tr>
+<td>Persistencia</td>
+<td>Spring Data JPA, MySQL Driver, Flyway</td>
+<td>Acceso a datos, conexión a MySQL y migraciones</td>
+</tr>
+</tbody>
+</table>
+<p>Nota: en TechStore el directorio y el <code>artifactId</code> Maven coinciden: <code>services/catalogo</code> → <code>catalogo</code>. La configuración DEV está en <code>infra/config-repo/catalogo-dev.yml</code>. SpringDoc documenta la API; Config Server y Eureka se integran en S2/S3.</p>
+<h4 id="322-revisar-dependencias-mysql-y-flyway">3.2.2 Revisar dependencias MySQL y Flyway</h4>
+<p>Abre <code>services/catalogo/pom.xml</code> y verifica que existan las dependencias de persistencia para MySQL:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>org.flywaydb<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>flyway-core<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>org.flywaydb<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>flyway-mysql<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>com.mysql<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>mysql-connector-j<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;scope&gt;</span>runtime<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+<p>TechStore también incluye <code>spring-cloud-starter-config</code> y <code>spring-cloud-starter-netflix-eureka-client</code> para integrarse con Config Server (7071) y Eureka (7081) desde S2.</p>
+<h4 id="323-ejecutar-una-primera-vez-y-reconocer-el-fallo-esperado">3.2.3 Ejecutar una primera vez y reconocer el fallo esperado</h4>
+<p>Ubicate en la carpeta del microservicio:</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> services/catalogo
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<p>Si todavía no existe configuración de base de datos, el error esperado será parecido a:</p>
+<div class="highlight"><pre><span></span><code>APPLICATION FAILED TO START
+Failed to configure a DataSource: &#39;url&#39; attribute is not specified and no embedded datasource could be configured.
+Reason: Failed to determine a suitable driver class
+</code></pre></div>
+<p>Se corrige declarando MySQL DEV y levantando la base de datos con Docker (<code>docker-compose-dev.yml</code>).</p>
+<h4 id="324-crear-docker-compose-devyml-para-mysql-dev">3.2.4 Crear <code>docker-compose-dev.yml</code> para MySQL DEV</h4>
+<p>En <code>services/catalogo</code> (o <code>services/&lt;servicio&gt;</code> según tabla 3.2.0), crea o revisa <code>docker-compose-dev.yml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">catalogo-dev</span>
+
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">mysql-catalogo-dev</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mysql:8.4</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">MYSQL_ROOT_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">root</span>
+<span class="w">      </span><span class="nt">MYSQL_DATABASE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db_catalogo</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;3381:3306&quot;</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mysql_catalogo_dev_data:/var/lib/mysql</span>
+
+<span class="nt">volumes</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">mysql_catalogo_dev_data</span><span class="p">:</span>
+</code></pre></div>
+<p>Puertos MySQL DEV por servicio: <code>auth</code> 3341, <code>catalogo</code> 3381, <code>producto</code> 3391, <code>pedido</code> 3401, <code>pago</code> 3411, <code>carrito</code> 3421.</p>
+<p>Levanta la base de datos:</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose-dev.yml<span class="w"> </span>up<span class="w"> </span>-d
+docker<span class="w"> </span>ps
+</code></pre></div>
+<h4 id="325-configurar-applicationyml-y-config-server">3.2.5 Configurar <code>application.yml</code> y Config Server</h4>
+<p>En DEV la app corre con Maven en el host; MySQL en Docker. La config DEV (puerto, datasource, JPA) está en <code>infra/config-repo/&lt;servicio&gt;-dev.yml</code>.</p>
+<p>En <code>services/catalogo/src/main/resources/application.yml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spring</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">application</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">catalogo</span>
+<span class="w">  </span><span class="nt">profiles</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">active</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dev</span>
+<span class="w">  </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">import</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;optional:configserver:http://${CONFIG_SERVER_HOST:localhost}:${CONFIG_SERVER_PORT:7071}&quot;</span>
+</code></pre></div>
+<p>Fragmento de <code>infra/config-repo/catalogo-dev.yml</code> (mismo patrón en <code>auth-dev.yml</code>, <code>producto-dev.yml</code>, etc.):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">server</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9081</span>
+
+<span class="nt">spring</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">datasource</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jdbc:mysql://localhost:3381/db_catalogo?useSSL=false&amp;serverTimezone=America/Lima&amp;allowPublicKeyRetrieval=true</span>
+<span class="w">    </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">root</span>
+<span class="w">    </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">root</span>
+<span class="w">    </span><span class="nt">driver-class-name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">com.mysql.cj.jdbc.Driver</span>
+<span class="w">  </span><span class="nt">flyway</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">jpa</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">hibernate</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">ddl-auto</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">update</span>
+</code></pre></div>
+<p>Puertos DEV fijos por servicio (tabla 3.2.0). En S1 <code>catalogo</code> usa <code>ddl-auto: update</code>; otros servicios pueden usar Flyway activo. En S2 se profundiza Config Server.</p>
+<h4 id="326-crear-un-endpoint-temporal-de-saludo">3.2.6 Crear un endpoint temporal de saludo</h4>
+<p>Antes del CRUD, crea un controlador mínimo para comprobar que la aplicación web responde.</p>
+<p>Archivo: <code>src/main/java/com/upeu/catalogo/controller/SaludoController.java</code></p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.upeu.catalogo.controller</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="p">;</span>
+
+<span class="nd">@RestController</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SaludoController</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/saludo&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">saludo</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;catalogo activo&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Este endpoint es temporal para validar el arranque web. Luego el foco pasara al CRUD de categorías.</p>
+<h4 id="327-ejecutar-y-comprobar-que-ya-no-falla">3.2.7 Ejecutar y comprobar que ya no falla</h4>
+<p>Antes de ejecutar la aplicación, comprueba que MySQL DEV está listo (mismo patrón para cualquier microservicio de la tabla 3.2.0):</p>
+<p>PowerShell / bash macOS/Linux (ejemplo <code>catalogo</code>):</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose-dev.yml<span class="w"> </span>ps
+docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>catalogo-dev-mysql-catalogo-dev-1<span class="w"> </span>mysql<span class="w"> </span>-uroot<span class="w"> </span>-proot<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;SHOW DATABASES;&quot;</span>
+</code></pre></div>
+<p>Resultado esperado: base <code>db_catalogo</code> listada.</p>
+<p>Con MySQL DEV levantado, ejecuta la aplicación:</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<p>Prueba el endpoint:</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="p">`</span>
+  <span class="n">-Method</span> <span class="n">Get</span> <span class="p">`</span>
+  <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:9081/saludo&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:9081/saludo
+</code></pre></div>
+<p>Resultado esperado:</p>
+<div class="highlight"><pre><span></span><code>catalogo activo
+</code></pre></div>
+<p>También puedes revisar Swagger usando el puerto que aparezca en la consola de arranque:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:9081/swagger-ui.html
+</code></pre></div>
+<p><strong>Evidencia de cierre del paso 3.2</strong></p>
+<ul>
+<li>Proyecto en <code>services/catalogo</code> (mismo patrón para <code>auth</code>, <code>producto</code>, <code>pedido</code>, <code>pago</code>, <code>carrito</code>).</li>
+<li><code>pom.xml</code> con dependencias base y persistencia MySQL.</li>
+<li>MySQL DEV en Docker (<code>docker-compose-dev.yml</code>).</li>
+<li><code>application.yml</code> + <code>infra/config-repo/catalogo-dev.yml</code>.</li>
+<li>Endpoint <code>/saludo</code> en <code>http://localhost:9081</code>.</li>
+</ul>
+<h3 id="33-construir-el-crud-de-categoria-con-una-base-de-apoyo">3.3 Construir el CRUD de <code>Categoria</code> con una base de apoyo</h3>
+<p><strong>Producto del paso:</strong> CRUD de <code>Categoria</code> incorporado en <code>catalogo</code>, incluyendo entidad, capas de aplicación, validaciones y migración de base de datos.</p>
+<p>En esta sesión se trabaja con <code>Categoria</code> en <code>catalogo</code>. El mismo patrón de capas (entity, repository, service, controller, dto, mapper) se replica en los demás microservicios TechStore:</p>
+<ul>
+<li><code>producto</code> → <code>Producto</code> (U1)</li>
+<li><code>auth</code> → <code>AuthUser</code>, <code>Role</code> (S7)</li>
+<li><code>pedido</code> → <code>Pedido</code>, <code>PedidoItem</code> (U2)</li>
+<li><code>pago</code> → <code>Pago</code> (U2)</li>
+<li><code>carrito</code> → <code>Carrito</code>, <code>CarritoItem</code> (U2)</li>
+</ul>
+<p>La entidad <code>Categoria</code> representa la tabla <code>categorias</code> y es la base del CRUD que construyes hoy en S1.</p>
+<h4 id="331-revisar-la-entidad-principal">3.3.1 Revisar la entidad principal</h4>
+<p>Entidad de referencia:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;categorias&quot;</span><span class="p">)</span>
+<span class="nd">@Getter</span>
+<span class="nd">@Setter</span>
+<span class="nd">@Builder</span>
+<span class="nd">@NoArgsConstructor</span>
+<span class="nd">@AllArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Categoria</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Id</span>
+<span class="w">    </span><span class="nd">@GeneratedValue</span><span class="p">(</span><span class="n">strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GenerationType</span><span class="p">.</span><span class="na">IDENTITY</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Column</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;nombre&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">nullable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">nombre</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Column</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;descripcion&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">255</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">descripcion</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Para avanzar sin consumir demasiado tiempo escribiendo código repetitivo, se usará una repo base ya preparada. Desde una carpeta temporal fuera del monorepo principal, clona la versión base:</p>
+<h4 id="332-clonar-la-repo-base">3.3.2 Clonar la repo base</h4>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>vs01-arquitectura-base<span class="w"> </span>https://github.com/261dist/catalogo.git
+</code></pre></div>
+<h4 id="333-copiar-carpetas-del-crud">3.3.3 Copiar carpetas del CRUD</h4>
+<p>Copia desde la repo base hacia <code>services/catalogo/src/main/java/com/upeu/catalogo</code> las carpetas del CRUD. Si ya existen, reemplazalas:</p>
+<div class="highlight"><pre><span></span><code>config
+controller
+dto
+entity
+exception
+filter
+mapper
+repository
+service
+</code></pre></div>
+<p>Copia también la carpeta de migraciones de cada servicio. Flyway aplica <code>src/main/resources/db/migration</code> en DEV y PROD local (ver sección 3.3.8 para el contenido esperado en los seis microservicios):</p>
+<div class="highlight"><pre><span></span><code>src/main/resources/db
+</code></pre></div>
+<p>Y copia el archivo de configuración de logs:</p>
+<div class="highlight"><pre><span></span><code>src/main/resources/logback-spring.xml
+</code></pre></div>
+<p>No copies <code>CatalogoApplication.java</code> si ya existe en tu proyecto. Ese archivo es la clase principal de arranque y debe quedar una sola versión.</p>
+<h4 id="334-revisar-estructura-resultante">3.3.4 Revisar estructura resultante</h4>
+<p>Después de copiar, revisa que la estructura de <code>catalogo</code> quede similar a:</p>
+<div class="highlight"><pre><span></span><code>src/main/java/com/upeu/catalogo
+  config/
+  controller/
+  dto/
+  entity/
+  exception/
+  filter/
+  mapper/
+  repository/
+  service/
+  CatalogoApplication.java
+src/main/resources/db/migration
+  V1__create_categorias_table.sql
+  (auth: V1–V3, producto: V1–V4, pedido: V1–V2, pago: V1–V2, carrito: V1)
+src/main/resources
+  logback-spring.xml
+</code></pre></div>
+<h4 id="335-revisar-cada-capa">3.3.5 Revisar cada capa</h4>
+<p>Revisa cada carpeta copiada antes de ejecutar:</p>
+<div class="highlight"><pre><span></span><code>entity      -&gt; modelo persistente Categoría
+repository  -&gt; acceso a datos con JPA
+service     -&gt; lógica de aplicación
+controller  -&gt; endpoints REST
+dto         -&gt; datos de entrada y salida
+mapper      -&gt; conversion entre entidad y DTO
+exception   -&gt; manejo de errores
+filter      -&gt; filtros HTTP cuando aplique
+config      -&gt; configuraciones locales del servicio
+</code></pre></div>
+<h4 id="336-revisar-logs-y-trazabilidad-interna">3.3.6 Revisar logs y trazabilidad interna</h4>
+<p>Revisa <code>filter/CorrelationIdFilter.java</code>. Este filtro agrega un identificador de trazabilidad a cada request usando el header <code>X-Trace-ID</code>. Si el cliente no lo envia, el filtro genera un UUID.</p>
+<p>En S1 la trazabilidad es interna al microservicio:</p>
+<div class="highlight"><pre><span></span><code>Cliente shell / Swagger -&gt; Controller -&gt; Service -&gt; Repository -&gt; BD
+</code></pre></div>
+<p>Todos los logs producidos durante esa petición pueden compartir el mismo <code>traceId</code>.</p>
+<p>Revisa también <code>src/main/resources/logback-spring.xml</code>. Este archivo define el formato de logs e incluye el <code>traceId</code> en cada línea:</p>
+<div class="highlight"><pre><span></span><code>[%X{traceId}]
+</code></pre></div>
+<p>También configura salida por consola y archivo en:</p>
+<div class="highlight"><pre><span></span><code>logs/catalogo.log
+</code></pre></div>
+<p>Más adelante, cuando se agreguen Gateway, Feign o frontend, el mismo header <code>X-Trace-ID</code> podrá propagarse entre componentes para trazabilidad distribuida.</p>
+<h4 id="337-revisar-validaciones">3.3.7 Revisar validaciones</h4>
+<p>Verifica que los DTOs tengan anotaciones de validación y que el controlador use <code>@Valid</code> en los métodos que reciben <code>@RequestBody</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@NotBlank</span>
+<span class="nd">@Size</span><span class="p">(</span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">nombre</span><span class="p">;</span>
+</code></pre></div>
+<p>La validación evita que el microservicio acepte datos incompletos antes de llegar a la base de datos.</p>
+<h4 id="338-revisar-migracion-flyway">3.3.8 Revisar migración Flyway</h4>
+<p>Cada microservicio TechStore mantiene su esquema en <code>services/&lt;servicio&gt;/src/main/resources/db/migration</code>. Flyway ejecuta los archivos <code>V&lt;n&gt;__&lt;descripcion&gt;.sql</code> en orden al arrancar la aplicación. En S1 revisas el patrón en <code>catalogo</code>; el mismo procedimiento aplica al replicar el CRUD en los demás servicios.</p>
+<table>
+<thead>
+<tr>
+<th>Servicio</th>
+<th>Ruta migraciones</th>
+<th>Base de datos</th>
+<th>MySQL DEV</th>
+<th>Migración inicial (V1)</th>
+<th>Migraciones adicionales</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>catalogo</code></td>
+<td><code>services/catalogo/src/main/resources/db/migration</code></td>
+<td><code>db_catalogo</code></td>
+<td>3381</td>
+<td><code>V1__create_categorias_table.sql</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>auth</code></td>
+<td><code>services/auth/src/main/resources/db/migration</code></td>
+<td><code>db_auth</code></td>
+<td>3341</td>
+<td><code>V1__create_users_roles_tables.sql</code></td>
+<td>V2 perfil, V3 datos extendidos</td>
+</tr>
+<tr>
+<td><code>producto</code></td>
+<td><code>services/producto/src/main/resources/db/migration</code></td>
+<td><code>db_producto</code></td>
+<td>3391</td>
+<td><code>V1__create_productos_table.sql</code></td>
+<td>V2 e-commerce, V3 imagen, V4 oferta</td>
+</tr>
+<tr>
+<td><code>pedido</code></td>
+<td><code>services/pedido/src/main/resources/db/migration</code></td>
+<td><code>db_pedido</code></td>
+<td>3401</td>
+<td><code>V1__create_pedidos_table.sql</code></td>
+<td>V2 items y totales</td>
+</tr>
+<tr>
+<td><code>pago</code></td>
+<td><code>services/pago/src/main/resources/db/migration</code></td>
+<td><code>db_pago</code></td>
+<td>3411</td>
+<td><code>V1__create_pagos_table.sql</code></td>
+<td>V2 referencia y usuario</td>
+</tr>
+<tr>
+<td><code>carrito</code></td>
+<td><code>services/carrito/src/main/resources/db/migration</code></td>
+<td><code>db_carrito</code></td>
+<td>3421</td>
+<td><code>V1__create_carrito_tables.sql</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>En DEV, la mayoría de servicios usan <code>ddl-auto: update</code> o <code>validate</code> según <code>infra/config-repo/&lt;servicio&gt;-dev.yml</code>; en PROD local Flyway es la fuente de verdad del esquema con <code>ddl-auto: validate</code>.</p>
+<h5 id="3381-flyway-catalogo">3.3.8.1 <code>catalogo</code> — tabla <code>categorias</code></h5>
+<p>Archivo: <code>V1__create_categorias_table.sql</code></p>
+<p>Contenido esperado:</p>
+<div class="highlight"><pre><span></span><code>CREATE TABLE IF NOT EXISTS categorias (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion VARCHAR(255),
+    PRIMARY KEY (id)
+);
+</code></pre></div>
+<p>Entidad JPA: <code>Categoria</code>. Verificación: <code>SHOW TABLES;</code> debe listar <code>categorias</code>. Nota: en DEV <code>catalogo-dev.yml</code> tiene <code>flyway.enabled: false</code> y <code>ddl-auto: update</code>; el archivo V1 se aplica en PROD local (<code>catalogo-prod.yml</code> con Flyway activo).</p>
+<h5 id="3382-flyway-auth">3.3.8.2 <code>auth</code> — tablas <code>users</code>, <code>roles</code>, <code>user_roles</code></h5>
+<p>Archivo: <code>V1__create_users_roles_tables.sql</code></p>
+<p>Contenido esperado:</p>
+<div class="highlight"><pre><span></span><code>CREATE TABLE roles (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_roles_name (name)
+);
+
+CREATE TABLE users (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    enabled BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_users_username (username)
+);
+
+CREATE TABLE user_roles (
+    user_id BIGINT NOT NULL,
+    role_id BIGINT NOT NULL,
+    PRIMARY KEY (user_id, role_id),
+    CONSTRAINT fk_user_roles_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_user_roles_role FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
+);
+</code></pre></div>
+<p>Migraciones posteriores: <code>V2__add_user_profile_fields.sql</code> (email, nombre completo) y <code>V3__extend_user_profile.sql</code> (DNI, dirección, etc.). Entidades: <code>AuthUser</code>, <code>Role</code>.</p>
+<h5 id="3383-flyway-producto">3.3.8.3 <code>producto</code> — tabla <code>productos</code></h5>
+<p>Archivo: <code>V1__create_productos_table.sql</code></p>
+<p>Contenido esperado:</p>
+<div class="highlight"><pre><span></span><code>CREATE TABLE IF NOT EXISTS productos (
+    id INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion VARCHAR(255),
+    id_categoria INT NOT NULL,
+    PRIMARY KEY (id)
+);
+</code></pre></div>
+<p>Migraciones posteriores: <code>V2__add_ecommerce_fields.sql</code> (precio, stock, sku), <code>V3__add_imagen_url.sql</code>, <code>V4__add_en_oferta.sql</code>. Entidad: <code>Producto</code>.</p>
+<h5 id="3384-flyway-pedido">3.3.8.4 <code>pedido</code> — tablas <code>pedidos</code> y <code>pedido_items</code></h5>
+<p>Archivo: <code>V1__create_pedidos_table.sql</code></p>
+<p>Contenido esperado:</p>
+<div class="highlight"><pre><span></span><code>CREATE TABLE IF NOT EXISTS pedidos (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    cliente VARCHAR(100) NOT NULL,
+    estado VARCHAR(50) NOT NULL,
+    observacion VARCHAR(255),
+    PRIMARY KEY (id)
+);
+</code></pre></div>
+<p><code>V2__add_ecommerce_fields.sql</code> agrega <code>user_id</code>, <code>total</code>, <code>created_at</code> y crea <code>pedido_items</code>. Entidades: <code>Pedido</code>, <code>PedidoItem</code>.</p>
+<h5 id="3385-flyway-pago">3.3.8.5 <code>pago</code> — tabla <code>pagos</code></h5>
+<p>Archivo: <code>V1__create_pagos_table.sql</code></p>
+<p>Contenido esperado:</p>
+<div class="highlight"><pre><span></span><code>CREATE TABLE IF NOT EXISTS pagos (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    id_pedido BIGINT NOT NULL,
+    monto DECIMAL(12, 2) NOT NULL,
+    metodo VARCHAR(50) NOT NULL,
+    estado VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id)
+);
+</code></pre></div>
+<p><code>V2__add_ecommerce_fields.sql</code> agrega <code>user_id</code>, <code>referencia_transaccion</code> y <code>fecha_pago</code>. Entidad: <code>Pago</code>.</p>
+<h5 id="3386-flyway-carrito">3.3.8.6 <code>carrito</code> — tablas <code>carritos</code> y <code>carrito_items</code></h5>
+<p>Archivo: <code>V1__create_carrito_tables.sql</code></p>
+<p>Contenido esperado:</p>
+<div class="highlight"><pre><span></span><code>CREATE TABLE carritos (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT uk_carritos_user_id UNIQUE (user_id)
+);
+
+CREATE TABLE carrito_items (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    carrito_id BIGINT NOT NULL,
+    producto_id BIGINT NOT NULL,
+    cantidad INT NOT NULL,
+    nombre_producto VARCHAR(255) NOT NULL,
+    precio_unitario DECIMAL(12, 2) NOT NULL,
+    imagen_url VARCHAR(500),
+    stock_disponible INT NOT NULL DEFAULT 0,
+    CONSTRAINT fk_carrito_items_carrito FOREIGN KEY (carrito_id) REFERENCES carritos (id) ON DELETE CASCADE,
+    CONSTRAINT uk_carrito_items_producto UNIQUE (carrito_id, producto_id)
+);
+</code></pre></div>
+<p>Entidades: <code>Carrito</code>, <code>CarritoItem</code>. Un usuario tiene un carrito (<code>uk_carritos_user_id</code>).</p>
+<p>Al arrancar cualquier microservicio, revisa en los logs líneas como <code>Flyway migration successful</code> o <code>Migrating schema</code>. Si el esquema no coincide con la entidad JPA, el arranque fallará con error de validación Hibernate.</p>
+<h4 id="339-preguntas-de-verificacion-antes-de-ejecutar">3.3.9 Preguntas de verificación antes de ejecutar</h4>
+<p>Antes de ejecutar, la lectura del CRUD debe responder:</p>
+<ol>
+<li>Qué clase representa la tabla <code>categorias</code>?</li>
+<li>Qué archivo recibe la petición HTTP?</li>
+<li>Qué archivo concentra la lógica de aplicación?</li>
+<li>Qué archivo conversa con JPA?</li>
+<li>Qué DTO se usa para recibir datos desde la API?</li>
+<li>Qué excepción se devuelve cuando no existe una categoría?</li>
+<li>Para qué sirve <code>CorrelationIdFilter</code>?</li>
+<li>Cómo aparece el <code>traceId</code> en los logs?</li>
+</ol>
+<h3 id="34-ejecutar-y-probar-el-microservicio-en-dev">3.4 Ejecutar y probar el microservicio en DEV</h3>
+<p><strong>Producto del paso:</strong> microservicio ejecutando en desarrollo fuera del IDE, Swagger disponible, health activo y CRUD verificado por shell. Usa el <strong>puerto DEV</strong> de la tabla 3.2.0 (<code>catalogo</code> → <code>9081</code>, <code>producto</code> → <code>9091</code>, etc.).</p>
+<h4 id="341-verificar-mysql-dev">3.4.1 Verificar MySQL DEV</h4>
+<p>Verifica que MySQL DEV siga activo:</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>ps
+</code></pre></div>
+<h4 id="342-ejecutar-con-maven">3.4.2 Ejecutar con Maven</h4>
+<p>Ejecuta el microservicio:</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> services/catalogo
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<p>En la consola confirma que Tomcat arrancó en el puerto DEV (<code>9081</code> para <code>catalogo</code>):</p>
+<div class="highlight"><pre><span></span><code>Tomcat started on port 9081
+</code></pre></div>
+<h4 id="343-verificar-tabla-creada-por-flyway">3.4.3 Verificar tablas creadas por Flyway</h4>
+<p>Tras arrancar el microservicio, verifica que Flyway haya aplicado las migraciones en MySQL DEV. Sustituye <code>&lt;servicio&gt;</code> y el contenedor según la tabla 3.2.0:</p>
+<table>
+<thead>
+<tr>
+<th>Servicio</th>
+<th>Contenedor MySQL</th>
+<th>Base de datos</th>
+<th>Tablas principales a verificar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>catalogo</code></td>
+<td><code>mysql-catalogo-dev</code></td>
+<td><code>db_catalogo</code></td>
+<td><code>categorias</code>, <code>flyway_schema_history</code></td>
+</tr>
+<tr>
+<td><code>auth</code></td>
+<td><code>mysql-auth-dev</code></td>
+<td><code>db_auth</code></td>
+<td><code>users</code>, <code>roles</code>, <code>user_roles</code></td>
+</tr>
+<tr>
+<td><code>producto</code></td>
+<td><code>mysql-producto-dev</code></td>
+<td><code>db_producto</code></td>
+<td><code>productos</code></td>
+</tr>
+<tr>
+<td><code>pedido</code></td>
+<td><code>mysql-pedido-dev</code></td>
+<td><code>db_pedido</code></td>
+<td><code>pedidos</code>, <code>pedido_items</code></td>
+</tr>
+<tr>
+<td><code>pago</code></td>
+<td><code>mysql-pago-dev</code></td>
+<td><code>db_pago</code></td>
+<td><code>pagos</code></td>
+</tr>
+<tr>
+<td><code>carrito</code></td>
+<td><code>mysql-carrito-dev</code></td>
+<td><code>db_carrito</code></td>
+<td><code>carritos</code>, <code>carrito_items</code></td>
+</tr>
+</tbody>
+</table>
+<p>Ejemplo para <code>catalogo</code> (replica el patrón en los demás servicios):</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>mysql-catalogo-dev<span class="w"> </span>mysql<span class="w"> </span>-uroot<span class="w"> </span>-proot<span class="w"> </span>db_catalogo<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;SHOW TABLES;&quot;</span>
+docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>mysql-catalogo-dev<span class="w"> </span>mysql<span class="w"> </span>-uroot<span class="w"> </span>-proot<span class="w"> </span>db_catalogo<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;DESCRIBE categorias;&quot;</span>
+</code></pre></div>
+<p>Otros ejemplos rápidos:</p>
+<div class="highlight"><pre><span></span><code>docker exec -it mysql-auth-dev mysql -uroot -proot db_auth -e &quot;SHOW TABLES;&quot;
+docker exec -it mysql-producto-dev mysql -uroot -proot db_producto -e &quot;DESCRIBE productos;&quot;
+docker exec -it mysql-pedido-dev mysql -uroot -proot db_pedido -e &quot;SHOW TABLES;&quot;
+docker exec -it mysql-pago-dev mysql -uroot -proot db_pago -e &quot;DESCRIBE pagos;&quot;
+docker exec -it mysql-carrito-dev mysql -uroot -proot db_carrito -e &quot;DESCRIBE carrito_items;&quot;
+</code></pre></div>
+<p>La tabla <code>flyway_schema_history</code> confirma qué migraciones se aplicaron (<code>SELECT * FROM flyway_schema_history;</code>).</p>
+<h4 id="344-revisar-swagger">3.4.4 Revisar Swagger</h4>
+<p>Abre Swagger usando el puerto que aparece en la consola:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:9081/swagger-ui.html
+</code></pre></div>
+<p>Verifica que aparezcan las operaciones del controlador de categorías.</p>
+<h4 id="345-verificar-health-y-metrics">3.4.5 Verificar health y metrics</h4>
+<p>Verifica <code>/actuator/health</code>:</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="p">`</span>
+  <span class="n">-Method</span> <span class="n">Get</span> <span class="p">`</span>
+  <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:9081/actuator/health&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:9081/actuator/health
+</code></pre></div>
+<p>Verifica <code>/actuator/metrics</code>. Este endpoint solo requiere <code>spring-boot-starter-actuator</code>; no necesita una libreria adicional.</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="p">`</span>
+  <span class="n">-Method</span> <span class="n">Get</span> <span class="p">`</span>
+  <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:9081/actuator/metrics&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:9081/actuator/metrics
+</code></pre></div>
+<p>También puedes consultar una métrica específica:</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="p">`</span>
+  <span class="n">-Method</span> <span class="n">Get</span> <span class="p">`</span>
+  <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:9081/actuator/metrics/jvm.memory.used&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:9081/actuator/metrics/jvm.memory.used
+</code></pre></div>
+<p>Nota: para exponer <code>/actuator/prometheus</code> si se requiere <code>micrometer-registry-prometheus</code>.</p>
+<h4 id="346-probar-crud-por-shell">3.4.6 Probar CRUD por shell</h4>
+<p>Prueba el CRUD de categorías en <code>catalogo</code> (<code>http://localhost:9081</code>). Mismo estilo de prueba aplica a otros microservicios cambiando puerto y ruta (tabla 3.2.0).</p>
+<p>PowerShell — crear categoría:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$body</span> <span class="p">=</span> <span class="s1">&#39;{&quot;nombre&quot;:&quot;Laptops&quot;,&quot;descripcion&quot;:&quot;Equipos portátiles&quot;}&#39;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="p">-</span><span class="n">Method</span> <span class="n">Post</span> <span class="p">-</span><span class="n">Uri</span> <span class="s2">&quot;http://localhost:9081/api/v1/categorias&quot;</span> <span class="p">-</span><span class="n">ContentType</span> <span class="s2">&quot;application/json&quot;</span> <span class="p">-</span><span class="n">Body</span> <span class="nv">$body</span>
+</code></pre></div>
+<p>PowerShell — listar, obtener, actualizar y eliminar:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="p">-</span><span class="n">Method</span> <span class="n">Get</span> <span class="p">-</span><span class="n">Uri</span> <span class="s2">&quot;http://localhost:9081/api/v1/categorias&quot;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="p">-</span><span class="n">Method</span> <span class="n">Get</span> <span class="p">-</span><span class="n">Uri</span> <span class="s2">&quot;http://localhost:9081/api/v1/categorias/1&quot;</span>
+<span class="nv">$body</span> <span class="p">=</span> <span class="s1">&#39;{&quot;nombre&quot;:&quot;Laptops Pro&quot;,&quot;descripcion&quot;:&quot;Gama alta&quot;}&#39;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="p">-</span><span class="n">Method</span> <span class="n">Put</span> <span class="p">-</span><span class="n">Uri</span> <span class="s2">&quot;http://localhost:9081/api/v1/categorias/1&quot;</span> <span class="p">-</span><span class="n">ContentType</span> <span class="s2">&quot;application/json&quot;</span> <span class="p">-</span><span class="n">Body</span> <span class="nv">$body</span>
+<span class="nb">Invoke-RestMethod</span> <span class="p">-</span><span class="n">Method</span> <span class="n">Delete</span> <span class="p">-</span><span class="n">Uri</span> <span class="s2">&quot;http://localhost:9081/api/v1/categorias/1&quot;</span>
+</code></pre></div>
+<p>bash / macOS / Linux:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:9081/api/v1/categorias<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;nombre&quot;:&quot;Laptops&quot;,&quot;descripcion&quot;:&quot;Equipos portátiles&quot;}&#39;</span>
+curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:9081/api/v1/categorias
+curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:9081/api/v1/categorias/1
+curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>http://localhost:9081/api/v1/categorias/1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;nombre&quot;:&quot;Laptops Pro&quot;,&quot;descripcion&quot;:&quot;Gama alta&quot;}&#39;</span>
+curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>DELETE<span class="w"> </span>http://localhost:9081/api/v1/categorias/1
+</code></pre></div>
+<p>Verifica en MySQL que la tabla <code>categorias</code> refleja los cambios.</p>
+<h4 id="347-ejecutar-una-segunda-instancia-en-dev">3.4.7 Escalado en DEV (referencia S3)</h4>
+<p>En TechStore S1 basta con <strong>una instancia</strong> de <code>catalogo</code> en puerto <code>9081</code>. El escalado con varias instancias y puertos dinámicos se profundiza en <strong>S3</strong> con Eureka. Si quieres adelantar la idea, levanta una segunda instancia cambiando temporalmente el puerto (por ejemplo <code>server.port=9083</code>) en otra terminal; no es obligatorio en S1.</p>
+<h3 id="35-configurar-produccion-local-con-docker">3.5 Configurar producción local con Docker</h3>
+<p><strong>Producto del paso:</strong> archivos de producción local preparados: <code>Dockerfile</code>, <code>.env</code>, <code>.env.example</code> y <code>docker-compose.yml</code> (mismo set en los seis microservicios).</p>
+<p>En DEV la aplicación se ejecuta con Maven desde el host y solo MySQL corre en Docker. En PROD local, la aplicación también se ejecuta como contenedor. Cada microservicio TechStore tiene el mismo conjunto de archivos en <code>services/&lt;servicio&gt;/</code>; en S1 revisas <code>catalogo</code> y en sesiones posteriores repites en <code>producto</code>, <code>auth</code>, <code>pedido</code>, <code>pago</code> y <code>carrito</code>.</p>
+<p>Archivos en <code>services/catalogo</code>:</p>
+<div class="highlight"><pre><span></span><code>.env
+.env.example
+Dockerfile
+docker-compose.yml
+</code></pre></div>
+<p>Config PROD centralizada en <code>infra/config-repo/catalogo-prod.yml</code> (puerto <code>8082</code>). Puertos PROD por servicio: <code>auth</code> 8042, <code>catalogo</code> 8082, <code>producto</code> 9092, <code>pedido</code> 9102, <code>pago</code> 9112, <code>carrito</code> 9122.</p>
+<h4 id="351-crear-dockerfile">3.5.1 Crear <code>Dockerfile</code></h4>
+<p>El <code>Dockerfile</code> construye el JAR con Maven y luego ejecuta la aplicación con Java 17:</p>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">maven:3.9.9-eclipse-temurin-17</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">build</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+
+<span class="k">COPY</span><span class="w"> </span>pom.xml<span class="w"> </span>.
+<span class="k">RUN</span><span class="w"> </span>mvn<span class="w"> </span>-q<span class="w"> </span>-DskipTests<span class="w"> </span>dependency:go-offline
+
+<span class="k">COPY</span><span class="w"> </span>src<span class="w"> </span>./src
+<span class="k">RUN</span><span class="w"> </span>mvn<span class="w"> </span>-q<span class="w"> </span>clean<span class="w"> </span>package<span class="w"> </span>-DskipTests
+
+<span class="k">FROM</span><span class="w"> </span><span class="s">eclipse-temurin:17-jre</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+
+<span class="k">COPY</span><span class="w"> </span>--from<span class="o">=</span>build<span class="w"> </span>/app/target/*.jar<span class="w"> </span>app.jar
+
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">8082</span>
+
+<span class="k">ENTRYPOINT</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;java&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;-jar&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;app.jar&quot;</span><span class="p">]</span>
+</code></pre></div>
+<h4 id="352-crear-env-y-envexample">3.5.2 Crear <code>.env</code> y <code>.env.example</code></h4>
+<p><code>.env</code> contiene variables para producción local. <code>.env.example</code> debe tener la misma estructura para que otro estudiante pueda reproducir el entorno sin adivinar nombres.</p>
+<div class="highlight"><pre><span></span><code>SPRING_PROFILES_ACTIVE=prod
+CONFIG_SERVER_URL=http://config-server:7071
+
+CATALOGO_MYSQL_ROOT_PASSWORD=root
+CATALOGO_MYSQL_DATABASE=db_catalogo
+
+CATALOGO_DB_HOST=mysql-catalogo
+CATALOGO_DB_PORT=3306
+CATALOGO_DB_NAME=db_catalogo
+CATALOGO_DB_USERNAME=root
+CATALOGO_DB_PASSWORD=root
+</code></pre></div>
+<p>En otros microservicios las variables siguen el prefijo del servicio (<code>AUTH_*</code>, <code>PRODUCTO_*</code>, etc.) según su <code>.env.example</code>.</p>
+<h4 id="353-config-prod-en-config-server">3.5.3 Configuración PROD en Config Server</h4>
+<p>En TechStore la config PROD no va en <code>application-prod.yml</code> local, sino en <code>infra/config-repo/catalogo-prod.yml</code> (y análogos por servicio). La app en Docker usa perfil <code>prod</code> y se conecta a MySQL por nombre de servicio Docker (<code>mysql-catalogo</code>).</p>
+<h4 id="354-crear-docker-composeyml">3.5.4 Crear <code>docker-compose.yml</code></h4>
+<p><code>docker-compose.yml</code> levanta MySQL y el microservicio. Publica la app en <code>8082</code> y MySQL PROD en <code>3382</code>. Se conecta a la red externa <code>ms-net</code> para Config Server y Eureka (S2/S3).</p>
+<p>Revisa el archivo en <code>services/catalogo/docker-compose.yml</code>. El mismo patrón existe en <code>services/auth</code>, <code>services/producto</code>, <code>services/pedido</code>, <code>services/pago</code> y <code>services/carrito</code>.</p>
+<h3 id="36-probar-produccion-local-con-docker">3.6 Probar producción local con Docker</h3>
+<p><strong>Producto del paso:</strong> microservicio ejecutando en producción local con Docker, MySQL PROD disponible y escalado controlado a dos instancias.</p>
+<h4 id="361-levantar-produccion-local">3.6.1 Levantar producción local</h4>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> services/catalogo
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build<span class="w"> </span>--scale<span class="w"> </span>catalogo<span class="o">=</span><span class="m">2</span>
+docker<span class="w"> </span>compose<span class="w"> </span>ps
+</code></pre></div>
+<h4 id="362-verificar-la-base-de-datos-prod">3.6.2 Verificar la base de datos PROD</h4>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>catalogo-prod-mysql-catalogo-1<span class="w"> </span>mysql<span class="w"> </span>-uroot<span class="w"> </span>-proot<span class="w"> </span>db_catalogo<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;SHOW TABLES;&quot;</span>
+curl<span class="w"> </span>http://localhost:8082/actuator/health
+</code></pre></div>
+<h4 id="363-verificar-health-desde-la-red-docker">3.6.3 Verificar health</h4>
+<p>En TechStore PROD local <code>catalogo</code> publica puerto <code>8082</code> en el host. Para otros servicios usa el puerto PROD de la tabla 3.2.0 / 3.5.</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:8082/actuator/health
+</code></pre></div>
+<p>Resultado esperado:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="s2">&quot;UP&quot;</span><span class="p">}</span>
+</code></pre></div>
+<h4 id="364-revisar-logs-y-bajar-el-entorno">3.6.4 Revisar logs y bajar el entorno</h4>
+<p>La producción local se levanto con dos instancias usando <code>--scale catalogo=2</code>. No uses más de dos en laboratorio porque cada instancia consume CPU y memoria.</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>ps
+</code></pre></div>
+<p>Revisa logs de ambas instancias:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>--tail<span class="o">=</span><span class="m">80</span><span class="w"> </span>catalogo
+</code></pre></div>
+<p>Al terminar la evidencia, baja el entorno para liberar CPU, memoria, red y contenedores:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>down
+</code></pre></div>
+<h3 id="37-ruta-alternativa-clonar-y-ejecutar-a-partir-del-tag-final-de-la-sesion">3.7 Ruta alternativa: ejecutar TechStore sin repetir el laboratorio</h3>
+<p>Si tu equipo (<strong>Equipo 07 — TechStore-g2</strong>) ya tiene el monorepo <code>ProyectoMS2026</code> clonado, puedes ir directo a levantar, probar y capturar evidencias.</p>
+<p>Repositorio local típico: <code>D:\ProyectoMS2026pro\ProyectoMS2026</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Necesidad</th>
+<th>Referencia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Levantar y probar en DEV</td>
+<td><a href="#34-ejecutar-y-probar-el-microservicio-en-dev">Ver paso 3.4</a></td>
+</tr>
+<tr>
+<td>Revisar Swagger</td>
+<td><a href="#344-revisar-swagger">Ver paso 3.4.4</a></td>
+</tr>
+<tr>
+<td>Revisar health y metrics</td>
+<td><a href="#345-verificar-health-y-metrics">Ver paso 3.4.5</a></td>
+</tr>
+<tr>
+<td>Probar CRUD por shell</td>
+<td><a href="#346-probar-crud-por-shell">Ver paso 3.4.6</a></td>
+</tr>
+<tr>
+<td>Levantar y escalar PROD local</td>
+<td><a href="#36-probar-produccion-local-con-docker">Ver paso 3.6</a></td>
+</tr>
+</tbody>
+</table>
+<p>Comandos mínimos DEV:</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> services/catalogo
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose-dev.yml<span class="w"> </span>up<span class="w"> </span>-d
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<p>Comandos mínimos PROD local (<code>catalogo</code> en <code>8082</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> D:\ProyectoMS2026pro\ProyectoMS2026\services\catalogo
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build
+curl<span class="w"> </span>http://localhost:8082/actuator/health
+</code></pre></div>
+<h3 id="371-archivos-clave-por-modo-de-ejecucion">3.7.1 Archivos clave por modo de ejecución</h3>
+<p>Patrón repetible en los <strong>seis microservicios</strong> TechStore (<code>catalogo</code>, <code>auth</code>, <code>producto</code>, <code>pedido</code>, <code>pago</code>, <code>carrito</code>). Ejemplo con <code>catalogo</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Propósito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>services/catalogo/docker-compose-dev.yml</code></td>
+<td>MySQL DEV</td>
+</tr>
+<tr>
+<td><code>services/catalogo/src/main/resources/application.yml</code></td>
+<td>Configuración base y perfil activo</td>
+</tr>
+<tr>
+<td><code>infra/config-repo/catalogo-dev.yml</code></td>
+<td>Puerto DEV, datasource MySQL, JPA, Flyway</td>
+</tr>
+</tbody>
+</table>
+<p>El mismo patrón aplica con <code>auth-dev.yml</code>, <code>producto-dev.yml</code>, <code>pedido-dev.yml</code>, <code>pago-dev.yml</code> y <code>carrito-dev.yml</code>.</p>
+<p>PROD local (ejemplo <code>catalogo</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Propósito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>services/catalogo/Dockerfile</code></td>
+<td>Imagen de aplicación</td>
+</tr>
+<tr>
+<td><code>services/catalogo/docker-compose.yml</code></td>
+<td>Producción local con Docker (MySQL + app)</td>
+</tr>
+<tr>
+<td><code>infra/config-repo/catalogo-prod.yml</code></td>
+<td>Configuración PROD (puerto 8082, datasource)</td>
+</tr>
+<tr>
+<td><code>services/catalogo/.env.example</code></td>
+<td>Variables para PROD local (plantilla)</td>
+</tr>
+<tr>
+<td><code>services/catalogo/.env</code></td>
+<td>Variables locales de ejecución PROD</td>
+</tr>
+</tbody>
+</table>
+<p>Comunes (cada <code>services/&lt;servicio&gt;/</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>Propósito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>services/catalogo/pom.xml</code></td>
+<td>Dependencias del microservicio</td>
+</tr>
+<tr>
+<td><code>services/catalogo/src/main/java/...</code></td>
+<td>Código del servicio</td>
+</tr>
+<tr>
+<td><code>services/catalogo/src/main/resources/db/migration</code></td>
+<td>Migraciones Flyway</td>
+</tr>
+<tr>
+<td><code>infra/config-repo/&lt;servicio&gt;-dev.yml</code></td>
+<td>Config centralizada DEV (puerto, MySQL, JPA)</td>
+</tr>
+<tr>
+<td><code>infra/config-repo/&lt;servicio&gt;-prod.yml</code></td>
+<td>Config centralizada PROD</td>
+</tr>
+</tbody>
+</table>
+<h3 id="372-verificacion-rapida-de-base-de-datos">3.7.2 Verificación rápida de base de datos</h3>
+<p>DEV — ejemplo <code>catalogo</code> (MySQL <code>3381</code>, BD <code>db_catalogo</code>). Repite con <code>mysql-auth-dev</code>, <code>mysql-producto-dev</code>, etc. (ver tabla 3.4.3):</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose-dev.yml<span class="w"> </span>ps
+docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>mysql-catalogo-dev<span class="w"> </span>mysql<span class="w"> </span>-uroot<span class="w"> </span>-proot<span class="w"> </span>db_catalogo<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;SHOW TABLES;&quot;</span>
+docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>mysql-catalogo-dev<span class="w"> </span>mysql<span class="w"> </span>-uroot<span class="w"> </span>-proot<span class="w"> </span>db_catalogo<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;SELECT * FROM categorias;&quot;</span>
+</code></pre></div>
+<p>PROD local (<code>catalogo</code>, MySQL host <code>3382</code>, app <code>8082</code>):</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>mysql-catalogo<span class="w"> </span>mysql<span class="w"> </span>-uroot<span class="w"> </span>-proot<span class="w"> </span>db_catalogo<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;SHOW TABLES;&quot;</span>
+docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>mysql-catalogo<span class="w"> </span>mysql<span class="w"> </span>-uroot<span class="w"> </span>-proot<span class="w"> </span>db_catalogo<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;SELECT * FROM categorias;&quot;</span>
+</code></pre></div>
+<h3 id="373-checklist-cierre-s1-techstore">3.7.3 Checklist de cierre S1 — TechStore</h3>
+<p>Marca lo completado en el laboratorio (S1 guía <code>catalogo</code>; el resto es referencia del monorepo):</p>
+<table>
+<thead>
+<tr>
+<th>Microservicio</th>
+<th>DEV app</th>
+<th>MySQL DEV</th>
+<th>Estado S1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>catalogo</code></td>
+<td>9081</td>
+<td>3381 / <code>db_catalogo</code></td>
+<td><strong>Construir y evidenciar hoy</strong></td>
+</tr>
+<tr>
+<td><code>auth</code></td>
+<td>8041</td>
+<td>3341 / <code>db_auth</code></td>
+<td>Referencia — sesión S7</td>
+</tr>
+<tr>
+<td><code>producto</code></td>
+<td>9091</td>
+<td>3391 / <code>db_producto</code></td>
+<td>Autónomo sugerido (U1)</td>
+</tr>
+<tr>
+<td><code>pedido</code></td>
+<td>9101</td>
+<td>3401 / <code>db_pedido</code></td>
+<td>Referencia — U2</td>
+</tr>
+<tr>
+<td><code>pago</code></td>
+<td>9111</td>
+<td>3411 / <code>db_pago</code></td>
+<td>Referencia — U2 (+ Mercado Pago)</td>
+</tr>
+<tr>
+<td><code>carrito</code></td>
+<td>9121</td>
+<td>3421 / <code>db_carrito</code></td>
+<td>Referencia — U2</td>
+</tr>
+</tbody>
+</table>
+<p>Infraestructura compartida (sesiones posteriores): Config Server <code>7071</code>, Eureka <code>7081</code>, Gateway <code>7091</code>, Kafka en <code>kafka/</code>, frontend en <code>techstore-proyecto</code>.</p>
+<h2 id="4-crea-actividad-autonoma">4. Crea: actividad autónoma</h2>
+<p>Fuera del aula, cada estudiante de <strong>Equipo 07 — TechStore-g2</strong> consolida el aprendizaje replicando el patrón y preparando la evidencia individual.</p>
+<p>Tiempo: 4h fuera del aula.</p>
+<p>Esta actividad autónoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulacion de los avances de cada sesión; por eso, la evidencia de esta sesión debe incorporarse a la documentación del proyecto y quedar trazable en GitHub.</p>
+<h3 id="41-plantilla-de-evidencia-individual">4.1 Plantilla de evidencia individual</h3>
+<p>Entrega un PDF con el siguiente nombre:</p>
+<p>El PDF de esta sesión debe generarse como impresion o exportacion de la sección correspondiente en MkDocs o una herramienta equivalente. No se acepta un PDF armado manualmente fuera de la documentación del proyecto.</p>
+<div class="highlight"><pre><span></span><code>S01_Equipo##_TechStore-g#_ApellidoNombre.pdf
+</code></pre></div>
+<p>Ejemplo Equipo 07:</p>
+<div class="highlight"><pre><span></span><code>S01_Equipo07_TechStore-g2_Vizcarra.pdf
+</code></pre></div>
+<p>Convención TechStore-Proyecto: <code>S01</code> = sesión, <code>Equipo07</code> = número de equipo, <code>TechStore-g2</code> = grupo dentro del equipo, <code>ApellidoNombre</code> = autor individual del PDF.</p>
+<p>El PDF debe usar esta estructura. La primera sección define el trabajo autónomo; completa las demas con tus evidencias.</p>
+<h4 id="411-datos-del-estudiante">4.1.1 Datos del estudiante</h4>
+<p>Ejemplo Equipo 07 — TechStore-g2:</p>
+<ul>
+<li>Nombre: Alicia Vizcarra Ramos</li>
+<li>Equipo: 07 — TechStore-g2</li>
+<li>Proyecto: TechStore-Proyecto (<code>ProyectoMS2026</code>)</li>
+<li>Sesión: S01 — Construcción de un servicio base para un sistema distribuido</li>
+<li>Rol o aporte realizado: Microservicio base <code>catalogo</code> (9081, MySQL 3381); patrón replicado en <code>producto</code></li>
+<li>Microservicio trabajado: <code>catalogo</code> (S1) / <code>producto</code> (autónomo)</li>
+<li>Link de GitHub: <a href="https://github.com/AliciaVizcarraRamos/PROYECTO-FINAL-TechStore">PROYECTO-FINAL-TechStore</a></li>
+</ul>
+<h4 id="412-trabajo-autonomo-realizado">4.1.2 Trabajo autónomo realizado</h4>
+<p>Completa y evidencia estas tareas:</p>
+<ol>
+<li>Replicar el patrón de <code>catalogo</code> en otro microservicio TechStore, por ejemplo <code>producto</code> (puerto DEV <code>9091</code>, MySQL <code>3391</code>).</li>
+<li>Levantar MySQL DEV con <code>docker compose -f docker-compose-dev.yml up -d</code> en el servicio elegido.</li>
+<li>Ejecutar el microservicio en DEV con Maven (<code>mvn spring-boot:run</code>).</li>
+<li>Probar el CRUD por PowerShell o bash (en S1: <code>/api/v1/categorias</code> en <code>catalogo</code>).</li>
+<li>Verificar Swagger (<code>/swagger-ui.html</code>), <code>/actuator/health</code> y <code>/actuator/metrics</code> en el puerto DEV de la tabla 3.2.0.</li>
+<li>Revisar la base de datos con comandos <code>mysql</code> (credenciales <code>root/root</code>).</li>
+<li>Ejecutar una prueba breve en PROD local con <code>docker compose up -d --build</code>.</li>
+<li>Explicar la diferencia entre DEV Maven y PROD Docker en TechStore.</li>
+</ol>
+<h4 id="413-evidencia-tecnica">4.1.3 Evidencia técnica</h4>
+<p>Incluye capturas o salidas de consola con una breve explicación debajo de cada una:</p>
+<ul>
+<li>Ejecución con <code>mvn spring-boot:run</code>.</li>
+<li>Prueba CRUD por shell.</li>
+<li>Swagger o lista de endpoints disponible.</li>
+<li>Respuesta de <code>/actuator/health</code>.</li>
+<li>Respuesta de <code>/actuator/metrics</code>.</li>
+<li>Consulta de tabla y registros con <code>mysql</code>.</li>
+<li>Ejecución en PROD local con Docker.</li>
+<li>Evidencia de máximo dos instancias, si corresponde.</li>
+</ul>
+<h4 id="414-error-o-hallazgo">4.1.4 Error o hallazgo</h4>
+<p>Describe al menos un error, diferencia o hallazgo técnico:</p>
+<ul>
+<li>Que ocurrió.</li>
+<li>Como lo diagnosticaste.</li>
+<li>Como lo corregiste o que aprendiste.</li>
+</ul>
+<h4 id="415-reflexion-tecnica-breve">4.1.5 Reflexión técnica breve</h4>
+<p>Responde en 5 a 8 líneas:</p>
+<div class="highlight"><pre><span></span><code>Por qué un microservicio debe poder ejecutarse en DEV y PROD local de forma reproducible?
+</code></pre></div>
+<h3 id="42-criterios-minimos-de-aceptacion">4.2 Criterios mínimos de aceptación</h3>
+<p>La evidencia individual se considera completa si:</p>
+<ul>
+<li>El archivo respeta el nombre <code>S01_Equipo##_TechStore-g#_ApellidoNombre.pdf</code> (ej. <code>S01_Equipo07_TechStore-g2_ApellidoNombre.pdf</code>).</li>
+<li>Incluye evidencias técnicas legibles.</li>
+<li>Muestra el microservicio funcionando en DEV.</li>
+<li>Muestra prueba de CRUD y base de datos.</li>
+<li>Muestra una ejecución breve en PROD local.</li>
+<li>Explica un aporte individual verificable.</li>
+<li>No contiene solo pantallazos: cada evidencia tiene una descripción breve.</li>
+</ul>
+<h2 id="5-cierre-evaluativo">5. Cierre evaluativo</h2>
+<p>Tiempo: 20 min.</p>
+<p>Esta sección conecta el resultado de aprendizaje de la sesión con el producto que debe evidenciar cada estudiante.</p>
+<h3 id="51-resultados-esperados">5.1 Resultados esperados</h3>
+<p>Al finalizar la sesión, el estudiante debe demostrar que:</p>
+<ul>
+<li>El microservicio <code>catalogo</code> ejecuta en DEV con Maven (puerto <code>9081</code>).</li>
+<li>El microservicio ejecuta en PROD local con Docker (puerto <code>8082</code>).</li>
+<li>MySQL funciona en DEV (<code>3381</code>) y PROD local (<code>3382</code>).</li>
+<li>El CRUD de <code>Categoria</code> responde por shell.</li>
+<li>Swagger y <code>/actuator/health</code> funcionan en <code>http://localhost:9081</code>.</li>
+<li>Tabla <code>categorias</code> visible en MySQL (JPA <code>ddl-auto: update</code> en DEV).</li>
+<li>Conoce el panorama de los seis microservicios TechStore (tabla 3.2.0).</li>
+<li>Puede explicar la diferencia entre DEV Maven y PROD Docker.</li>
+</ul>
+<h3 id="52-evidencia-del-producto-de-sesion">5.2 Evidencia del producto de sesión</h3>
+<p>Cada estudiante entrega un PDF individual siguiendo la plantilla de la sección 4.1.</p>
+<p>Nombre del archivo:</p>
+<div class="highlight"><pre><span></span><code>S01_Equipo07_TechStore-g2_ApellidoNombre.pdf
+</code></pre></div>
+<p>La evidencia debe demostrar:</p>
+<ul>
+<li>Producto de sesión construido.</li>
+<li>Aporte individual verificable.</li>
+<li>Pruebas técnicas realizadas.</li>
+<li>Reflexión técnica breve.</li>
+</ul>
+<p>La revisión se realiza con los criterios mínimos de aceptación de la sección 4.2 y la rúbrica de la sección 5.4.</p>
+<p>Comparación mínima que debe defender:</p>
+<table>
+<thead>
+<tr>
+<th>Aspecto</th>
+<th>DEV Maven</th>
+<th>PROD Docker</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aplicación</td>
+<td>Ejecuta en host con <code>mvn spring-boot:run</code></td>
+<td>Ejecuta dentro de contenedor</td>
+</tr>
+<tr>
+<td>Base de datos</td>
+<td>MySQL en Docker DEV</td>
+<td>MySQL en Docker PROD</td>
+</tr>
+<tr>
+<td>Puerto del microservicio</td>
+<td>Fijo en DEV (<code>catalogo</code> → <code>9081</code>)</td>
+<td><code>8082</code> publicado en host (PROD local)</td>
+</tr>
+<tr>
+<td>Acceso externo</td>
+<td><code>http://localhost:9081</code></td>
+<td><code>http://localhost:8082</code>; luego por Gateway (<code>7091</code>)</td>
+</tr>
+<tr>
+<td>Propósito</td>
+<td>Desarrollo, depuracion y cambios rapidos</td>
+<td>Ejecución reproducible y cercana a producción</td>
+</tr>
+</tbody>
+</table>
+<h3 id="53-preguntas-de-defensa-y-reflexion">5.3 Preguntas de defensa y reflexión</h3>
+<ol>
+<li><p><strong>¿Por qué separar el sistema en microservicios?</strong></p>
+<p><strong>Respuesta (TechStore):</strong> Cada dominio (catálogo, producto, pedido, pago, carrito, auth) evoluciona y despliega de forma independiente. Un fallo o cambio en <code>pago</code> no obliga a recompilar todo el monorepo <code>ProyectoMS2026</code>.</p></li>
+<li><p><strong>¿Qué ventaja tiene Docker en desarrollo?</strong></p>
+<p><strong>Respuesta (TechStore):</strong> MySQL por servicio en puertos fijos (<code>3381</code>, <code>3391</code>, etc.) sin instalar seis BDs en el host; la red <code>ms-net</code> unifica infra en PROD local.</p></li>
+<li><p><strong>¿Cómo se nombra un microservicio en TechStore?</strong></p>
+<p><strong>Respuesta (TechStore):</strong> Carpeta y <code>artifactId</code> = nombre del servicio (<code>catalogo</code>, no <code>catalogo</code>); coincide con <code>spring.application.name</code> y archivos en <code>config-repo</code>.</p></li>
+</ol>
+<h3 id="54-rubrica-de-evaluacion">5.4 Rúbrica de evaluación</h3>
+<table>
+<thead>
+<tr>
+<th>Dimensión</th>
+<th style="text-align: right;">Peso</th>
+<th>3 - Logro destacado</th>
+<th>2 - Logro</th>
+<th>1 - Proceso</th>
+<th>0 - Inicio</th>
+<th style="text-align: right;">Puntuación obtenida</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Microservicio funcional</td>
+<td style="text-align: right;">2</td>
+<td>Evidencia microservicio ejecutando, CRUD funcionando, health/metrics y Swagger en DEV.</td>
+<td>Evidencia microservicio ejecutando y al menos una prueba funcional.</td>
+<td>Evidencia arranque parcial o sin pruebas suficientes.</td>
+<td>No evidencia el microservicio funcionando.</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>2. Persistencia y base de datos</td>
+<td style="text-align: right;">2</td>
+<td>Evidencia MySQL DEV/PROD y esquema por servicio: <code>categorias</code>, <code>users/roles</code>, <code>productos</code>, <code>pedidos</code>, <code>pagos</code>, <code>carritos</code> (sección 3.3.8). Flyway activo en PROD; en DEV <code>catalogo</code> usa <code>ddl-auto: update</code>.</td>
+<td>Evidencia tablas del microservicio trabajado y consultas <code>mysql</code> según 3.4.3.</td>
+<td>Evidencia parcial de conexión a BD.</td>
+<td>No evidencia uso de MySQL ni tabla creada.</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>3. Ejecución DEV y PROD local</td>
+<td style="text-align: right;">2</td>
+<td>Explica y evidencia DEV Maven (<code>9081</code>) y PROD Docker (<code>8082</code>).</td>
+<td>Evidencia DEV con Maven y PROD local con Docker.</td>
+<td>Muestra solo DEV o solo PROD local.</td>
+<td>No diferencia DEV y PROD local.</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>4. Aporte individual verificable</td>
+<td style="text-align: right;">2</td>
+<td>Aporte claro, verificable y conectado al producto del equipo.</td>
+<td>Aporte claro con archivo, comando o prueba realizada.</td>
+<td>Aporte mencionado de forma general.</td>
+<td>No se identifica aporte individual.</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>5. Diagnóstico de error o hallazgo</td>
+<td style="text-align: right;">1</td>
+<td>Analiza error/hallazgo, causa, solución y aprendizaje técnico.</td>
+<td>Explica causa probable y solución parcial.</td>
+<td>Menciona un problema sin explicarlo.</td>
+<td>No presenta error ni hallazgo.</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>6. Reflexión técnica y orden</td>
+<td style="text-align: right;">1</td>
+<td>Reflexión técnica precisa, PDF ordenado, capturas legibles y explicaciones breves.</td>
+<td>Reflexión clara y evidencias entendibles.</td>
+<td>Reflexión superficial o evidencias poco legibles.</td>
+<td>PDF desordenado o sin reflexión.</td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<p>Puntuación acumulada = suma de (<code>Peso</code> * <code>Puntuacion obtenida</code>) = ____.</p>
+<p>Nota final = (<code>Puntuacion acumulada</code> / 30) * 20 = ____.</p>
+<p>Para usar la rúbrica con IA (Equipo 07 — TechStore-g2), solicita:</p>
+<div class="highlight"><pre><span></span><code>Evalúa el PDF usando la rúbrica de la sesión.
+Para cada dimensión selecciona la puntuación obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuación.
+Calcula la puntuación acumulada con la fórmula: suma de (Peso * Puntuación obtenida).
+Calcula la nota final sobre 20 con la fórmula: (Puntuación acumulada / 30) * 20.
+Indica 2 fortalezas y 2 recomendaciones.
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../../javascripts/mermaid.js"></script>
+      
+    
+  </body>
+</html>

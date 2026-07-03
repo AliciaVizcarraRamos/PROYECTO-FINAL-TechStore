@@ -1,0 +1,3177 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Guia del curso de sistemas distribuidos con Spring Cloud">
+      
+      
+      
+      
+        <link rel="prev" href="../s03-eureka-escalado/">
+      
+      
+        <link rel="next" href="../s05-evaluacion-u1/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/proyecto-logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>S4 - Acceso unico y trafico - TechStore-Proyecto final</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#s4-punto-unico-de-acceso-y-distribucion-de-trafico" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="TechStore-Proyecto final" class="md-header__button md-logo" aria-label="TechStore-Proyecto final" data-md-component="logo">
+      
+  
+  <img src="../../assets/images/proyecto-logo.png" alt="TechStore logo" draggable="false" style="height:2.4rem;width:2.4rem;object-fit:contain">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            TechStore-Proyecto final
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              S4 - Acceso unico y trafico
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="TechStore-Proyecto final" class="md-nav__button md-logo" aria-label="TechStore-Proyecto final" data-md-component="logo">
+      
+  
+  <img src="../../assets/images/proyecto-logo.png" alt="TechStore logo" draggable="false" style="height:2.4rem;width:2.4rem;object-fit:contain">
+
+    </a>
+    TechStore-Proyecto final
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Silabos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Silabos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../silabo_dist_2026_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Silabo 2026-1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../silabo_dist_2026_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Silabo 2026-2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Sistema distribuido base
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    1. Sistema distribuido base
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s01-arquitectura-base/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S1 - Servicio base
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s02-configuracion-centralizada/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S2 - Configuracion y ambientes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s03-eureka-escalado/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S3 - Registro y descubrimiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S4 - Acceso unico y trafico
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S4 - Acceso unico y trafico
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introducción
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introducción">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-proposito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Propósito
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-resultado-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Resultado de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-producto-de-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Producto de sesión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-motivacion-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Motivacion de la sesión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-ubicacion-en-el-curso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Ubicación en el curso
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-explica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Explica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Explica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-conceptos-clave" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Conceptos clave
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-arquitectura-del-producto-en-techstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Arquitectura del producto en TechStore
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Arquitectura del producto en TechStore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#221-gateway-y-balanceo-en-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.1 Gateway y balanceo en DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#222-gateway-y-balanceo-en-prod-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.2 Gateway y balanceo en PROD local
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#223-estado-nuevo-de-urls-en-s4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.3 Estado nuevo de URLs en S4
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-observabilidad-y-diagnostico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Observabilidad y diagnóstico
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-aplica-actividad-practica-guiada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Aplica: actividad práctica guiada
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Aplica: actividad práctica guiada">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-crear-carpeta-del-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Crear carpeta del Gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-crear-proyecto-spring-boot-gateway-desde-vs-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Crear proyecto Spring Boot Gateway desde VS Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-ajustar-pomxml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Ajustar pom.xml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-configurar-applicationyml-base-de-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Configurar application.yml base de Gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-crear-rutas-desde-config-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Crear rutas desde Config Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-levantar-config-server-en-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Levantar Config Server en DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-probar-configuracion-de-gateway-desde-config-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 Probar configuración de Gateway desde Config Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#38-levantar-eureka-en-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8 Levantar Eureka en DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#39-levantar-gateway-en-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.9 Levantar Gateway en DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#310-verificar-gateway-en-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.10 Verificar Gateway en DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#311-levantar-microservicio-y-segunda-instancia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.11 Levantar microservicio y segunda instancia
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#312-verificar-registro-en-eureka" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.12 Verificar registro en Eureka
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#313-probar-por-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.13 Probar por Gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#314-evidenciar-balanceo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.14 Evidenciar balanceo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#315-probar-error-esperado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.15 Probar error esperado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#316-preparar-levantar-y-probar-prod-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.16 Preparar, levantar y probar PROD local
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.16 Preparar, levantar y probar PROD local">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3161-crear-soporte-docker-para-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.16.1 Crear soporte Docker para Gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3162-levantar-gateway-en-prod-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.16.2 Levantar Gateway en PROD local
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3163-levantar-microservicio-en-prod-local-y-probar-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.16.3 Levantar microservicio en PROD local y probar Gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3164-validar-evidencias-de-cierre-de-la-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.16.4 Validar evidencias de cierre de la práctica
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#317-ruta-alternativa-clonar-y-ejecutar-a-partir-del-tag-final-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesión
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-crea-actividad-autonoma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Crea: actividad autónoma
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Crea: actividad autónoma">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-plantilla-de-evidencia-individual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Plantilla de evidencia individual
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Plantilla de evidencia individual">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#411-datos-del-estudiante" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.1 Datos del estudiante
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#412-trabajo-autonomo-realizado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.2 Trabajo autónomo realizado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#413-evidencia-tecnica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.3 Evidencia técnica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#414-error-o-hallazgo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.4 Error o hallazgo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#415-reflexion-tecnica-breve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.5 Reflexión técnica breve
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-criterios-minimos-de-aceptacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Criterios mínimos de aceptación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-cierre-evaluativo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Cierre evaluativo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Cierre evaluativo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-resultados-esperados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Resultados esperados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-evidencia-del-producto-de-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Evidencia del producto de sesión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-preguntas-de-defensa-y-reflexion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Preguntas de defensa y reflexión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-rubrica-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Rúbrica de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s05-evaluacion-u1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S5 - Evaluacion U1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Sistema distribuido robusto
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    2. Sistema distribuido robusto
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s06-feign-circuit-breaker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S6 - Comunicacion sincronica resiliente
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s07-seguridad-jwt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S7 - Seguridad distribuida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s08-angular-cors-jwt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S8 - Mensajeria asincrona
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s09-kafka-eventos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S9 - Consistencia distribuida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s10-observabilidad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S10 - Observabilidad y diagnostico
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s11-integracion-fullstack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S11 - Integracion frontend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s12-evaluacion-u2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S12 - Evaluacion U2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Validacion y consolidacion
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    3. Validacion y consolidacion
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s13-validacion-integral/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S13 - Validacion end-to-end
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s14-cierre-tecnico/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S14 - Revision tecnica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s15-defensa-tecnica/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S15 - Defensa tecnica
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s16-evaluacion-final/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S16 - Evaluacion final
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introducción
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introducción">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-proposito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Propósito
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-resultado-de-aprendizaje" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Resultado de aprendizaje
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-producto-de-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Producto de sesión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-motivacion-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Motivacion de la sesión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-ubicacion-en-el-curso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Ubicación en el curso
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-explica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Explica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Explica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-conceptos-clave" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Conceptos clave
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-arquitectura-del-producto-en-techstore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Arquitectura del producto en TechStore
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Arquitectura del producto en TechStore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#221-gateway-y-balanceo-en-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.1 Gateway y balanceo en DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#222-gateway-y-balanceo-en-prod-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.2 Gateway y balanceo en PROD local
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#223-estado-nuevo-de-urls-en-s4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.3 Estado nuevo de URLs en S4
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-observabilidad-y-diagnostico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Observabilidad y diagnóstico
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-aplica-actividad-practica-guiada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Aplica: actividad práctica guiada
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Aplica: actividad práctica guiada">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-crear-carpeta-del-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Crear carpeta del Gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-crear-proyecto-spring-boot-gateway-desde-vs-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Crear proyecto Spring Boot Gateway desde VS Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-ajustar-pomxml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Ajustar pom.xml
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-configurar-applicationyml-base-de-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Configurar application.yml base de Gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-crear-rutas-desde-config-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Crear rutas desde Config Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-levantar-config-server-en-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Levantar Config Server en DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-probar-configuracion-de-gateway-desde-config-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 Probar configuración de Gateway desde Config Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#38-levantar-eureka-en-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8 Levantar Eureka en DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#39-levantar-gateway-en-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.9 Levantar Gateway en DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#310-verificar-gateway-en-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.10 Verificar Gateway en DEV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#311-levantar-microservicio-y-segunda-instancia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.11 Levantar microservicio y segunda instancia
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#312-verificar-registro-en-eureka" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.12 Verificar registro en Eureka
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#313-probar-por-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.13 Probar por Gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#314-evidenciar-balanceo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.14 Evidenciar balanceo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#315-probar-error-esperado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.15 Probar error esperado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#316-preparar-levantar-y-probar-prod-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.16 Preparar, levantar y probar PROD local
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.16 Preparar, levantar y probar PROD local">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3161-crear-soporte-docker-para-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.16.1 Crear soporte Docker para Gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3162-levantar-gateway-en-prod-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.16.2 Levantar Gateway en PROD local
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3163-levantar-microservicio-en-prod-local-y-probar-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.16.3 Levantar microservicio en PROD local y probar Gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3164-validar-evidencias-de-cierre-de-la-practica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.16.4 Validar evidencias de cierre de la práctica
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#317-ruta-alternativa-clonar-y-ejecutar-a-partir-del-tag-final-de-la-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesión
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-crea-actividad-autonoma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Crea: actividad autónoma
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Crea: actividad autónoma">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-plantilla-de-evidencia-individual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Plantilla de evidencia individual
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 Plantilla de evidencia individual">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#411-datos-del-estudiante" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.1 Datos del estudiante
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#412-trabajo-autonomo-realizado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.2 Trabajo autónomo realizado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#413-evidencia-tecnica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.3 Evidencia técnica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#414-error-o-hallazgo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.4 Error o hallazgo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#415-reflexion-tecnica-breve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1.5 Reflexión técnica breve
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-criterios-minimos-de-aceptacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Criterios mínimos de aceptación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-cierre-evaluativo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Cierre evaluativo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Cierre evaluativo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-resultados-esperados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Resultados esperados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-evidencia-del-producto-de-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Evidencia del producto de sesión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-preguntas-de-defensa-y-reflexion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Preguntas de defensa y reflexión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-rubrica-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Rúbrica de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="s4-punto-unico-de-acceso-y-distribucion-de-trafico">S4 - Punto único de acceso y distribución de tráfico</h1>
+<h2 id="1-introduccion">1. Introducción</h2>
+<p>Tiempo: 20 min.</p>
+<h3 id="11-proposito">1.1 Propósito</h3>
+<p>Incorporar un punto único de acceso para que los clientes consuman el sistema mediante Gateway y para distribuir tráfico entre instancias disponibles.</p>
+<h3 id="12-resultado-de-aprendizaje">1.2 Resultado de aprendizaje</h3>
+<p>El estudiante configura rutas en Gateway, consume microservicios mediante un acceso centralizado y evidencia balanceo de carga.</p>
+<h3 id="13-producto-de-sesion">1.3 Producto de sesión</h3>
+<p>Gateway operativo en <code>infra/gateway</code> (puerto DEV <code>7091</code>, PROD <code>7092</code>), con rutas hacia los seis microservicios TechStore registrados en Eureka y pruebas de distribución de tráfico.</p>
+<h3 id="14-motivacion-de-la-sesion">1.4 Motivación de la sesión</h3>
+<p>Si un cliente conoce directamente todos los microservicios, queda acoplado a sus puertos, rutas y ubicaciones. Un Gateway permite centralizar el acceso y esconder la topología interna del sistema.</p>
+<p>Preguntas para los estudiantes:</p>
+<ol>
+<li>
+<p><strong>¿Por qué el cliente no debería conocer todos los microservicios?</strong></p>
+<p><strong>Respuesta (TechStore):</strong> Porque tendría que recordar seis puertos distintos (<code>9081</code>, <code>9091</code>, <code>8041</code>, etc.), actualizarlos al escalar y exponer la topología interna. Con Gateway en <code>7091</code> el cliente solo usa un host y rutas como <code>/api/v1/productos</code>.</p>
+</li>
+<li>
+<p><strong>¿Qué problema aparece si cada cliente llama directamente a cada microservicio?</strong></p>
+<p><strong>Respuesta (TechStore):</strong> Acoplamiento fuerte, duplicación de URLs en frontend y scripts, imposibilidad de balancear sin lógica en cada cliente, y cambios costosos cuando un servicio cambia de puerto o se agregan instancias.</p>
+</li>
+<li>
+<p><strong>¿Cómo se demuestra que existe balanceo de carga?</strong></p>
+<p><strong>Respuesta (TechStore):</strong> Levantar dos instancias de <code>catalogo</code> en Eureka y llamar varias veces a <code>http://localhost:7091/api/v1/catalogo/instancia</code>; las respuestas alternan el campo <code>instancia</code> (puerto distinto). También sirve capturar logs del Gateway con destinos diferentes.</p>
+</li>
+</ol>
+<h3 id="15-ubicacion-en-el-curso">1.5 Ubicación en el curso</h3>
+<ul>
+<li>Unidad: U1 - Sistema distribuido base orientado a producción.</li>
+<li>Producto de unidad: sistema distribuido base funcional, configurable y preparado para múltiples instancias.</li>
+<li>Avance del producto en esta sesión: acceso centralizado con rutas y balanceo de carga.</li>
+</ul>
+<p>Roadmap para elaborar el producto de la unidad:</p>
+<pre class="mermaid"><code>flowchart TB
+    Cliente["Cliente de prueba&lt;br/&gt;PowerShell / bash / Swagger"]
+    Gateway["Gateway&lt;br/&gt;7091 — HOY"]
+    subgraph MS["Microservicios TechStore"]
+        Catalogo["catalogo 9081"]
+        Producto["producto 9091"]
+        Auth["auth 8041"]
+        Pedido["pedido 9101"]
+        Pago["pago 9111"]
+        Carrito["carrito 9121"]
+    end
+    Eureka["registry-server&lt;br/&gt;7081 — S3"]
+    Config["config-server&lt;br/&gt;7071 — S2"]
+    Repo["infra/config-repo&lt;br/&gt;gateway-dev.yml"]
+
+    Cliente --&gt; Gateway
+    Gateway --&gt; MS
+    Gateway -. descubre servicios .-&gt; Eureka
+    MS -. registra instancia .-&gt; Eureka
+    Gateway -. carga configuracion .-&gt; Config
+    MS -. carga configuracion .-&gt; Config
+    Config --&gt; Repo
+
+    classDef done fill:#e8eaf6,stroke:#5c6bc0,color:#111
+    classDef today fill:#ede7f6,stroke:#7b1fa2,stroke-width:2px,color:#111
+    class Catalogo,Producto,Auth,Pedido,Pago,Carrito,Eureka,Config done
+    class Gateway today</code></pre>
+<h2 id="2-explica">2. Explica</h2>
+<p>Tiempo: 15 min.</p>
+<h3 id="21-conceptos-clave">2.1 Conceptos clave</h3>
+<ul>
+<li><strong>Gateway</strong>: punto único de entrada al sistema.</li>
+<li><strong>Ruta</strong>: regla que dirige una petición hacia un servicio.</li>
+<li><strong>Load Balancer</strong>: selecciona una instancia disponible del servicio.</li>
+<li><strong><code>lb://</code></strong>: esquema usado para resolver servicios registrados por nombre lógico.</li>
+</ul>
+<h3 id="22-arquitectura-del-producto-en-techstore">2.2 Arquitectura del producto en TechStore-Proyecto</h3>
+<h4 id="221-gateway-y-balanceo-en-dev">2.2.1 Gateway y balanceo en DEV</h4>
+<pre class="mermaid"><code>flowchart TB
+    Cliente["Cliente&lt;br/&gt;PowerShell / bash / navegador"]
+    Config["config-server&lt;br/&gt;localhost:7071"]
+    Gateway["Gateway&lt;br/&gt;7091"]
+    Eureka["registry-server&lt;br/&gt;localhost:7081"]
+    Catalogo1["catalogo inst.1&lt;br/&gt;9081"]
+    Catalogo2["catalogo inst.2&lt;br/&gt;puerto libre"]
+    Producto["producto 9091"]
+    Auth["auth 8041"]
+
+    Cliente --&gt;|"GET localhost:7091/actuator/health"| Gateway
+    Gateway -. "spring.config.import&lt;br/&gt;http://localhost:7071" .-&gt; Config
+    Gateway -. "descubre servicios&lt;br/&gt;http://localhost:7081/eureka" .-&gt; Eureka
+    Catalogo1 -. "registra instancia" .-&gt; Eureka
+    Catalogo2 -. "registra instancia" .-&gt; Eureka
+    Producto -. "registra instancia" .-&gt; Eureka
+    Auth -. "registra instancia" .-&gt; Eureka
+    Gateway --&gt;|"lb://catalogo"| Catalogo1
+    Gateway --&gt;|"lb://catalogo"| Catalogo2
+    Gateway --&gt;|"lb://producto"| Producto
+    Gateway --&gt;|"lb://auth"| Auth
+
+    classDef ms fill:#e3f2fd,stroke:#1565c0,color:#111
+    classDef infra fill:#ede7f6,stroke:#7b1fa2,color:#111
+    class Catalogo1,Catalogo2,Producto,Auth ms
+    class Config,Gateway,Eureka infra</code></pre>
+<p>En DEV el cliente entra solo por <code>http://localhost:7091</code>. El Gateway resuelve <code>lb://catalogo</code> consultando Eureka; no necesita conocer el puerto de cada instancia.</p>
+<h4 id="222-gateway-y-balanceo-en-prod-local">2.2.2 Gateway y balanceo en PROD local</h4>
+<pre class="mermaid"><code>flowchart TB
+    subgraph Docker["Docker Network: ms-net"]
+        Config["config-server&lt;br/&gt;7071 interno"]
+        Gateway["gateway&lt;br/&gt;7091 interno"]
+        Eureka["registry-server&lt;br/&gt;7081 interno"]
+        Catalogo1["catalogo inst.1&lt;br/&gt;8082"]
+        Catalogo2["catalogo inst.2&lt;br/&gt;8082"]
+        Producto["producto&lt;br/&gt;9092"]
+    end
+
+    Cliente["Cliente&lt;br/&gt;PowerShell / bash / navegador"]
+
+    Cliente --&gt;|"GET localhost:7092/actuator/health"| Gateway
+    Cliente --&gt;|"GET localhost:7092/api/v1/categorias"| Gateway
+
+    Gateway -. "spring.config.import&lt;br/&gt;http://config-server:7071" .-&gt; Config
+    Gateway -. "descubre servicios&lt;br/&gt;http://registry-server:7081/eureka" .-&gt; Eureka
+    Catalogo1 -. "registra instancia" .-&gt; Eureka
+    Catalogo2 -. "registra instancia" .-&gt; Eureka
+    Producto -. "registra instancia" .-&gt; Eureka
+    Gateway --&gt;|"lb://catalogo"| Catalogo1
+    Gateway --&gt;|"lb://catalogo"| Catalogo2
+    Gateway --&gt;|"lb://producto"| Producto
+
+    classDef ms fill:#e3f2fd,stroke:#1565c0,color:#111
+    classDef infra fill:#ede7f6,stroke:#7b1fa2,color:#111
+    class Catalogo1,Catalogo2,Producto ms
+    class Config,Gateway,Eureka infra</code></pre>
+<p>En PROD local, <code>infra/docker-compose.yml</code> publica Gateway en <code>7092</code> (mapeo <code>7092:7091</code>). Los microservicios se comunican por nombre dentro de <code>ms-net</code>.</p>
+<h4 id="223-estado-nuevo-de-urls-en-s4">2.2.3 Estado nuevo de URLs en S4</h4>
+<table>
+<thead>
+<tr>
+<th>Ambiente</th>
+<th>Componente</th>
+<th>URL o nombre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DEV</td>
+<td>Config Server</td>
+<td><code>http://localhost:7071</code></td>
+</tr>
+<tr>
+<td>DEV</td>
+<td>Gateway</td>
+<td><code>http://localhost:7091</code></td>
+</tr>
+<tr>
+<td>DEV</td>
+<td>Gateway health</td>
+<td><code>http://localhost:7091/actuator/health</code></td>
+</tr>
+<tr>
+<td>DEV</td>
+<td>Eureka (registry-server)</td>
+<td><code>http://localhost:7081</code></td>
+</tr>
+<tr>
+<td>DEV</td>
+<td><code>catalogo</code> vía Gateway</td>
+<td><code>http://localhost:7091/api/v1/categorias</code></td>
+</tr>
+<tr>
+<td>DEV</td>
+<td><code>producto</code> vía Gateway</td>
+<td><code>http://localhost:7091/api/v1/productos</code></td>
+</tr>
+<tr>
+<td>DEV</td>
+<td><code>auth</code> vía Gateway</td>
+<td><code>http://localhost:7091/auth/**</code></td>
+</tr>
+<tr>
+<td>PROD local</td>
+<td>Gateway desde host</td>
+<td><code>http://localhost:7092</code></td>
+</tr>
+<tr>
+<td>PROD local</td>
+<td>Gateway health</td>
+<td><code>http://localhost:7092/actuator/health</code></td>
+</tr>
+<tr>
+<td>PROD local</td>
+<td>Config Server desde host</td>
+<td><code>http://localhost:7072</code></td>
+</tr>
+<tr>
+<td>PROD local</td>
+<td>Eureka desde host</td>
+<td><code>http://localhost:7082</code></td>
+</tr>
+<tr>
+<td>PROD local</td>
+<td>Gateway interno</td>
+<td><code>http://gateway:7091</code></td>
+</tr>
+<tr>
+<td>PROD local</td>
+<td>Eureka interno</td>
+<td><code>http://registry-server:7081/eureka</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-observabilidad-y-diagnostico">2.3 Observabilidad y diagnóstico</h3>
+<p>Señales a revisar:</p>
+<ul>
+<li>Health de Gateway.</li>
+<li>Eureka con servicios registrados.</li>
+<li>Logs de rutas.</li>
+<li>Respuestas repetidas desde instancias distintas.</li>
+</ul>
+<p>Errores frecuentes:</p>
+<table>
+<thead>
+<tr>
+<th>Problema</th>
+<th>Causa probable</th>
+<th>Solución</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>503</td>
+<td>Servicio no registrado o Eureka no disponible</td>
+<td>Revisar Eureka y registros</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Ruta mal configurada</td>
+<td>Revisar predicates y paths</td>
+</tr>
+<tr>
+<td>No balancea</td>
+<td>Solo existe una instancia</td>
+<td>Levantar otra instancia con <code>mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=0</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-aplica-actividad-practica-guiada">3. Aplica: actividad práctica guiada</h2>
+<p>Tiempo: 3h.</p>
+<p>En el laboratorio, el docente guía la configuración de Gateway y la prueba de rutas hacia microservicios registrados.</p>
+<p>La ruta principal de la sesión es construir desde cero. Si el estudiante necesita avanzar más rápido, puede usar la ruta alternativa del paso 3.17 para clonar el tag final y ejecutar las pruebas.</p>
+<h3 id="31-crear-carpeta-del-gateway">3.1 Crear carpeta del Gateway</h3>
+<p><strong>Producto del paso:</strong> ubicación del proyecto Gateway preparada dentro del monorepo.</p>
+<p>En el monorepo <code>ProyectoMS2026</code> (TechStore), Gateway vive en:</p>
+<div class="highlight"><pre><span></span><code>infra/gateway
+</code></pre></div>
+<p>Desde la raiz del repositorio:</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>infra/gateway
+</code></pre></div>
+<p>Luego abre la raiz del monorepo en VS Code:</p>
+<div class="highlight"><pre><span></span><code>code<span class="w"> </span>.
+</code></pre></div>
+<h3 id="32-crear-proyecto-spring-boot-gateway-desde-vs-code">3.2 Crear proyecto Spring Boot Gateway desde VS Code</h3>
+<p><strong>Producto del paso:</strong> proyecto Spring Boot <code>gateway</code> creado dentro de <code>infra/gateway</code>.</p>
+<p>En VS Code usa Spring Initializr:</p>
+<div class="highlight"><pre><span></span><code>Spring Initializr: Create a Maven Project
+Spring Boot: 3.5.x
+Language: Java 17
+Group Id: com.upeu
+Artifact Id: gateway
+Package name: com.upeu.gateway
+Packaging: Jar
+Ubicación: infra/gateway
+</code></pre></div>
+<p>Dependencias para S04:</p>
+<table>
+<thead>
+<tr>
+<th>Grupo</th>
+<th>Dependencias</th>
+<th>Propósito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spring Cloud</td>
+<td>Gateway</td>
+<td>Punto único de acceso</td>
+</tr>
+<tr>
+<td>Spring Cloud</td>
+<td>Eureka Discovery Client</td>
+<td>Resolver servicios registrados</td>
+</tr>
+<tr>
+<td>Spring Cloud</td>
+<td>Config Client</td>
+<td>Leer rutas desde Config Server</td>
+</tr>
+<tr>
+<td>Operación</td>
+<td>Actuator</td>
+<td>Health y diagnóstico</td>
+</tr>
+<tr>
+<td>Desarrollo</td>
+<td>DevTools</td>
+<td>Recarga durante desarrollo</td>
+</tr>
+</tbody>
+</table>
+<p>En S07 se agregará seguridad al Gateway. En esta sesión todavía se trabaja el acceso único y el balanceo.</p>
+<h3 id="33-ajustar-pomxml">3.3 Ajustar <code>pom.xml</code></h3>
+<p><strong>Producto del paso:</strong> Gateway con Spring Cloud y dependencias necesarias para DEV.</p>
+<p>En <code>infra/gateway/pom.xml</code>, confirma o agrega la versión de Spring Cloud:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;properties&gt;</span>
+<span class="w">    </span><span class="nt">&lt;java.version&gt;</span>17<span class="nt">&lt;/java.version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;spring-cloud.version&gt;</span>2025.0.2<span class="nt">&lt;/spring-cloud.version&gt;</span>
+<span class="nt">&lt;/properties&gt;</span>
+</code></pre></div>
+<p>Agrega las dependencias principales:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependencies&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-actuator<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-config<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-gateway-server-webflux<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>spring-boot-devtools<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;scope&gt;</span>runtime<span class="nt">&lt;/scope&gt;</span>
+<span class="w">        </span><span class="nt">&lt;optional&gt;</span>true<span class="nt">&lt;/optional&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-test<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;/dependencies&gt;</span>
+</code></pre></div>
+<p>Agrega el BOM de Spring Cloud:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependencyManagement&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dependencies&gt;</span>
+<span class="w">        </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">            </span><span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;artifactId&gt;</span>spring-cloud-dependencies<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;version&gt;</span>${spring-cloud.version}<span class="nt">&lt;/version&gt;</span>
+<span class="w">            </span><span class="nt">&lt;type&gt;</span>pom<span class="nt">&lt;/type&gt;</span>
+<span class="w">            </span><span class="nt">&lt;scope&gt;</span>import<span class="nt">&lt;/scope&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependencies&gt;</span>
+<span class="nt">&lt;/dependencyManagement&gt;</span>
+</code></pre></div>
+<h3 id="34-configurar-applicationyml-base-de-gateway">3.4 Configurar <code>application.yml</code> base de Gateway</h3>
+<p><strong>Producto del paso:</strong> Gateway preparado para leer rutas desde Config Server.</p>
+<p>En <code>infra/gateway/src/main/resources/application.yml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">server</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7091</span>
+
+<span class="nt">spring</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">application</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gateway</span>
+<span class="w">  </span><span class="nt">profiles</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">active</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dev</span>
+<span class="w">  </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">import</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;optional:configserver:http://${CONFIG_SERVER_HOST:localhost}:${CONFIG_SERVER_PORT:7071}&quot;</span>
+
+<span class="nt">management</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">endpoints</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">web</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">exposure</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">include</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">health,info</span>
+<span class="w">  </span><span class="nt">endpoint</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">health</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">show-details</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always</span>
+
+<span class="nt">logging</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">level</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">INFO</span>
+</code></pre></div>
+<h3 id="35-crear-rutas-desde-config-server">3.5 Crear rutas desde Config Server</h3>
+<p>Producto del paso: archivos de configuración externa del Gateway creados en <code>config-repo</code>.</p>
+<p>Crea el archivo DEV:</p>
+<div class="highlight"><pre><span></span><code>infra/config-repo/gateway-dev.yml
+</code></pre></div>
+<p>Pega este contenido:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spring</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">cloud</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">gateway</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">routes</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">catalogo-route</span>
+<span class="w">          </span><span class="nt">uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lb://catalogo</span>
+<span class="w">          </span><span class="nt">predicates</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Path=/api/v1/categorias/**</span>
+
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">catalogo-instancia</span>
+<span class="w">          </span><span class="nt">uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lb://catalogo</span>
+<span class="w">          </span><span class="nt">predicates</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Path=/api/v1/catalogo/instancia</span>
+
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">producto-route</span>
+<span class="w">          </span><span class="nt">uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lb://producto</span>
+<span class="w">          </span><span class="nt">predicates</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Path=/api/v1/productos/**</span>
+
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">producto-instancia</span>
+<span class="w">          </span><span class="nt">uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lb://producto</span>
+<span class="w">          </span><span class="nt">predicates</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Path=/api/v1/producto/instancia</span>
+
+<span class="nt">eureka</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">instance</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">localhost</span>
+<span class="w">    </span><span class="nt">prefer-ip-address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">instance-id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${spring.application.name}:${local.server.port:${server.port}}</span>
+<span class="w">    </span><span class="nt">metadata-map</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">instance-port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${local.server.port:${server.port}}</span>
+<span class="w">  </span><span class="nt">client</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">service-url</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">defaultZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://localhost:7081/eureka</span>
+
+<span class="nt">management</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">endpoints</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">web</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">exposure</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">include</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">health,info,metrics,prometheus</span>
+<span class="w">  </span><span class="nt">endpoint</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">health</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">show-details</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always</span>
+</code></pre></div>
+<p>Crea el archivo PROD:</p>
+<div class="highlight"><pre><span></span><code>infra/config-repo/gateway-prod.yml
+</code></pre></div>
+<p>Pega este contenido:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spring</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">cloud</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">gateway</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">routes</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">catalogo-route</span>
+<span class="w">          </span><span class="nt">uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lb://catalogo</span>
+<span class="w">          </span><span class="nt">predicates</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Path=/api/v1/categorias/**</span>
+
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">catalogo-instancia</span>
+<span class="w">          </span><span class="nt">uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lb://catalogo</span>
+<span class="w">          </span><span class="nt">predicates</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Path=/api/v1/catalogo/instancia</span>
+
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">producto-route</span>
+<span class="w">          </span><span class="nt">uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lb://producto</span>
+<span class="w">          </span><span class="nt">predicates</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Path=/api/v1/productos/**</span>
+
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">producto-instancia</span>
+<span class="w">          </span><span class="nt">uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lb://producto</span>
+<span class="w">          </span><span class="nt">predicates</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Path=/api/v1/producto/instancia</span>
+
+<span class="nt">eureka</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">client</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">service-url</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">defaultZone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://registry-server:7081/eureka</span>
+
+<span class="nt">management</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">endpoints</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">web</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">exposure</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">include</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">health,info,metrics,prometheus</span>
+<span class="w">  </span><span class="nt">endpoint</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">health</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">show-details</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">never</span>
+</code></pre></div>
+<p>Las rutas apuntan a nombres lógicos registrados en Eureka (<code>spring.application.name</code> en minúsculas). Por eso el Gateway no necesita conocer el puerto de cada instancia.</p>
+<h4 id="351-rutas-techstore-panorama">3.5.1 Panorama de rutas TechStore (los seis microservicios)</h4>
+<p>En TechStore las rutas viven en <code>infra/config-repo/gateway-dev.yml</code> y <code>gateway-prod.yml</code>. En la práctica guiada se detalla <code>catalogo</code>; el mismo patrón aplica al resto:</p>
+<table>
+<thead>
+<tr><th>Microservicio</th><th>URI Eureka</th><th>Ruta API principal</th><th>Endpoint balanceo</th><th>Swagger vía Gateway</th></tr>
+</thead>
+<tbody>
+<tr><td><code>auth</code></td><td><code>lb://auth</code></td><td><code>/auth/**</code></td><td>—</td><td><code>/auth/swagger-ui.html</code></td></tr>
+<tr><td><code>catalogo</code></td><td><code>lb://catalogo</code></td><td><code>/api/v1/categorias/**</code></td><td><code>/api/v1/catalogo/instancia</code></td><td><code>/catalogo/swagger-ui.html</code></td></tr>
+<tr><td><code>producto</code></td><td><code>lb://producto</code></td><td><code>/api/v1/productos/**</code></td><td><code>/api/v1/producto/instancia</code></td><td><code>/producto/swagger-ui.html</code></td></tr>
+<tr><td><code>pedido</code></td><td><code>lb://pedido</code></td><td><code>/api/v1/pedidos/**</code></td><td><code>/api/v1/pedido/instancia</code></td><td><code>/pedido/swagger-ui.html</code></td></tr>
+<tr><td><code>pago</code></td><td><code>lb://pago</code></td><td><code>/api/v1/pagos/**</code></td><td><code>/api/v1/pago/instancia</code></td><td><code>/pago/swagger-ui.html</code></td></tr>
+<tr><td><code>carrito</code></td><td><code>lb://carrito</code></td><td><code>/api/v1/carritos/**</code></td><td><code>/api/v1/carrito/instancia</code></td><td><code>/carrito/swagger-ui.html</code></td></tr>
+</tbody>
+</table>
+<p>Cada microservicio incluye <code>GatewayInstanciasController</code> con <code>GET /api/v1/{servicio}/instancia</code> para evidenciar balanceo (mismo patrón que <code>catalogo</code>).</p>
+<h3 id="36-levantar-config-server-en-dev">3.6 Levantar Config Server en DEV</h3>
+<p>Producto del paso: configuración externa disponible por HTTP.</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra/config-server
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<h3 id="37-probar-configuracion-de-gateway-desde-config-server">3.7 Probar configuración de Gateway desde Config Server</h3>
+<p>Producto del paso: confirmar que <code>gateway-dev.yml</code> y <code>gateway-prod.yml</code> son leidos por Config Server.</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:7071/gateway/dev&quot;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:7071/gateway/prod&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:7071/gateway/dev
+curl<span class="w"> </span>http://localhost:7071/gateway/prod
+</code></pre></div>
+<p>Resultado esperado:</p>
+<ul>
+<li>La respuesta indica <code>name: gateway</code>.</li>
+<li>Se observan rutas hacia servicios con <code>lb://</code>.</li>
+<li>En DEV aparece Eureka con <code>localhost:7081</code>.</li>
+<li>En PROD aparece Eureka con <code>http://registry-server:7081/eureka</code>.</li>
+</ul>
+<h3 id="38-levantar-eureka-en-dev">3.8 Levantar Eureka en DEV</h3>
+<p>Producto del paso: registro de servicios disponible para Gateway.</p>
+<p>En otra terminal:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra/registry-server
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<p>Verifica en navegador:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:7081
+</code></pre></div>
+<h3 id="39-levantar-gateway-en-dev">3.9 Levantar Gateway en DEV</h3>
+<p>Producto del paso: Gateway ejecutando en <code>localhost:7091</code>.</p>
+<p>En otra terminal:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra/gateway
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<h3 id="310-verificar-gateway-en-dev">3.10 Verificar Gateway en DEV</h3>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:7091/actuator/health&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:7091/actuator/health
+</code></pre></div>
+<p>Resultado esperado: estado <code>UP</code>.</p>
+<h3 id="311-levantar-microservicio-y-segunda-instancia">3.11 Levantar microservicio y segunda instancia</h3>
+<p>Producto del paso: <code>catalogo</code> registrado con más de una instancia.</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>services/catalogo
+docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose-dev.yml<span class="w"> </span>up<span class="w"> </span>-d
+mvn<span class="w"> </span>spring-boot:run
+</code></pre></div>
+<p>En otra terminal (segunda instancia con puerto libre):</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>services/catalogo
+mvn<span class="w"> </span>spring-boot:run<span class="w"> </span>-Dspring-boot.run.arguments<span class="o">=</span>--server.port<span class="o">=</span><span class="m">0</span>
+</code></pre></div>
+<h3 id="312-verificar-registro-en-eureka">3.12 Verificar registro en Eureka</h3>
+<p>Abre:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:7081
+</code></pre></div>
+<p>Resultado esperado:</p>
+<ul>
+<li><code>CATALOGO</code> aparece registrado en <code>http://localhost:7081</code>.</li>
+<li>Hay dos instancias si se levantaron dos terminales.</li>
+</ul>
+<h3 id="313-probar-por-gateway">3.13 Probar por Gateway</h3>
+<p>Producto del paso: el cliente consume <code>catalogo</code> por Gateway y no por el puerto directo del microservicio.</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:7091/actuator/health&quot;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:7091/api/v1/categorias&quot;</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:7091/actuator/health
+curl<span class="w"> </span>http://localhost:7091/api/v1/categorias
+</code></pre></div>
+<h3 id="314-evidenciar-balanceo">3.14 Evidenciar balanceo</h3>
+<p>Producto del paso: se observa distribución de tráfico entre instancias disponibles.</p>
+<p>El endpoint de instancia debe existir en <code>catalogo</code>. Si todavía no lo tienes, crea este controlador:</p>
+<div class="highlight"><pre><span></span><code>services/catalogo/src/main/java/com/upeu/catalogo/controller/GatewayInstanciasController.java
+</code></pre></div>
+<p>Pega este código:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.upeu.catalogo.controller</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.net.InetAddress</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.net.UnknownHostException</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Map</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.core.env.Environment</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">lombok.RequiredArgsConstructor</span><span class="p">;</span>
+
+<span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="p">(</span><span class="s">&quot;/api/v1/catalogo&quot;</span><span class="p">)</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GatewayInstanciasController</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Environment</span><span class="w"> </span><span class="n">environment</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/instancia&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">instancia</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+<span class="w">                </span><span class="s">&quot;servicio&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;catalogo&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s">&quot;instancia&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">environment</span><span class="p">.</span><span class="na">getProperty</span><span class="p">(</span><span class="s">&quot;local.server.port&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;N/A&quot;</span><span class="p">),</span>
+<span class="w">                </span><span class="s">&quot;serverPort&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">environment</span><span class="p">.</span><span class="na">getProperty</span><span class="p">(</span><span class="s">&quot;server.port&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;N/A&quot;</span><span class="p">),</span>
+<span class="w">                </span><span class="s">&quot;host&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">hostName</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">hostName</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">InetAddress</span><span class="p">.</span><span class="na">getLocalHost</span><span class="p">().</span><span class="na">getHostName</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">UnknownHostException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;unknown&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Ejecuta varias veces por Gateway:</p>
+<p>PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="n">1</span><span class="p">..</span><span class="n">10</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span>
+  <span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:7091/api/v1/catalogo/instancia&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..10<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span>curl<span class="w"> </span>http://localhost:7091/api/v1/catalogo/instancia
+<span class="w">  </span><span class="nb">echo</span>
+<span class="k">done</span>
+</code></pre></div>
+<p>Resultado esperado:</p>
+<ul>
+<li>Gateway responde.</li>
+<li>Eureka muestra instancias disponibles.</li>
+<li>Las respuestas repetidas alternan entre instancias o muestran puertos distintos.</li>
+</ul>
+<h3 id="3141-probar-otros-microservicios-por-gateway">3.14.1 Probar otros microservicios por Gateway</h3>
+<p>Repite la misma idea con cualquier servicio de la tabla 3.5.1. Ejemplo con <code>producto</code> (autónomo Equipo 07):</p>
+<div class="highlight"><pre><span></span><code>curl http://localhost:7091/api/v1/productos
+curl http://localhost:7091/api/v1/producto/instancia
+</code></pre></div>
+<p>Con dos instancias de <code>producto</code> en Eureka, el endpoint <code>/api/v1/producto/instancia</code> alternará el puerto en la respuesta JSON.</p>
+<h3 id="315-probar-error-esperado">3.15 Probar error esperado</h3>
+<p>Producto del paso: estudiante diferencia una falla de ruta y una falla de disponibilidad.</p>
+<p>Deten una instancia o cambia temporalmente una ruta para observar:</p>
+<ul>
+<li><code>503</code> cuando no hay servicio disponible.</li>
+<li><code>404</code> cuando la ruta no coincide.</li>
+</ul>
+<p>Luego restaura la configuración.</p>
+<h3 id="316-preparar-levantar-y-probar-prod-local">3.16 Preparar, levantar y probar PROD local</h3>
+<p>En este paso se cierra la sesión mostrando que el Gateway también funciona en producción local con Docker. Primero se prepara soporte Docker, luego se levanta infraestructura y finalmente se prueba el acceso por Gateway.</p>
+<h4 id="3161-crear-soporte-docker-para-gateway">3.16.1 Crear soporte Docker para Gateway</h4>
+<p>Producto del paso: Gateway preparado para ejecutarse dentro de Docker junto con <code>config-server</code> y <code>registry-server</code>.</p>
+<p>TechStore ya incluye <code>infra/gateway/Dockerfile</code> y el servicio <code>gateway</code> en <code>infra/docker-compose.yml</code> (puerto host <code>7092</code>, interno <code>7091</code>). Fragmento de referencia:</p>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">maven:3.9.9-eclipse-temurin-17</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s">build</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+
+<span class="k">COPY</span><span class="w"> </span>pom.xml<span class="w"> </span>.
+<span class="k">RUN</span><span class="w"> </span>mvn<span class="w"> </span>-q<span class="w"> </span>-DskipTests<span class="w"> </span>dependency:go-offline
+
+<span class="k">COPY</span><span class="w"> </span>src<span class="w"> </span>./src
+<span class="k">RUN</span><span class="w"> </span>mvn<span class="w"> </span>-q<span class="w"> </span>clean<span class="w"> </span>package<span class="w"> </span>-DskipTests
+
+<span class="k">FROM</span><span class="w"> </span><span class="s">eclipse-temurin:17-jre</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+
+<span class="k">RUN</span><span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>curl<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/var/lib/apt/lists/*
+
+<span class="k">COPY</span><span class="w"> </span>--from<span class="o">=</span>build<span class="w"> </span>/app/target/*.jar<span class="w"> </span>app.jar
+
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">7091</span>
+
+<span class="k">ENTRYPOINT</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;java&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;-jar&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;app.jar&quot;</span><span class="p">]</span>
+</code></pre></div>
+<p>En <code>infra/docker-compose.yml</code> el servicio Gateway:</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">gateway</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./gateway</span>
+<span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gateway</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;7092:7091&quot;</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">SPRING_PROFILES_ACTIVE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prod</span>
+<span class="w">      </span><span class="nt">CONFIG_SERVER_URL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://config-server:7071</span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">config-server</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">registry-server</span>
+<span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ms-net</span>
+</code></pre></div>
+<h4 id="3162-levantar-gateway-en-prod-local">3.16.2 Levantar Gateway en PROD local</h4>
+<p>En PROD local, primero se levanta infraestructura:</p>
+<div class="highlight"><pre><span></span><code>infra -&gt; config-server + registry-server + gateway
+</code></pre></div>
+<p>Luego se levantan microservicios:</p>
+<div class="highlight"><pre><span></span><code>services/catalogo -&gt; BD + catalogo
+services/producto, auth, pedido, pago, carrito -&gt; mismo patrón
+</code></pre></div>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>infra
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build<span class="w"> </span>config-server<span class="w"> </span>registry-server<span class="w"> </span>gateway
+docker<span class="w"> </span>compose<span class="w"> </span>ps
+</code></pre></div>
+<p>Verifica con PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:7092/actuator/health&quot;</span>
+<span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:7082/actuator/health&quot;</span>
+</code></pre></div>
+<p>Verifica con bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:7092/actuator/health
+curl<span class="w"> </span>http://localhost:7082/actuator/health
+</code></pre></div>
+<h4 id="3163-levantar-microservicio-en-prod-local-y-probar-gateway">3.16.3 Levantar microservicio en PROD local y probar Gateway</h4>
+<p>Producto del paso: acceso funcional a <code>catalogo</code> por Gateway PROD.</p>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>../services/catalogo
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--build<span class="w"> </span>--scale<span class="w"> </span>catalogo<span class="o">=</span><span class="m">2</span>
+</code></pre></div>
+<p>Prueba desde el host por Gateway con PowerShell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">Invoke-RestMethod</span> <span class="n">-Method</span> <span class="n">Get</span> <span class="n">-Uri</span> <span class="s2">&quot;http://localhost:7092/api/v1/categorias&quot;</span>
+</code></pre></div>
+<p>Prueba desde el host por Gateway con bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:7092/api/v1/categorias
+</code></pre></div>
+<p>Resultado esperado:</p>
+<ul>
+<li>Gateway PROD responde por <code>localhost:7092</code>.</li>
+<li>Microservicios no exponen puerto host fijo.</li>
+<li>El acceso funcional pasa por Gateway.</li>
+</ul>
+<h4 id="3164-validar-evidencias-de-cierre-de-la-practica">3.16.4 Validar evidencias de cierre de la práctica</h4>
+<p>Antes de pasar a la actividad autónoma, verifica:</p>
+<ul>
+<li>Gateway DEV health.</li>
+<li>Ruta DEV por Gateway.</li>
+<li>Eureka con múltiples instancias.</li>
+<li>Gateway PROD health.</li>
+<li>Ruta PROD por Gateway.</li>
+<li>Diagnóstico de 404 o 503 explicado.</li>
+</ul>
+<h3 id="317-ruta-alternativa-clonar-y-ejecutar-a-partir-del-tag-final-de-la-sesion">3.17 Ruta alternativa: clonar y ejecutar a partir del tag final de la sesión</h3>
+<p>PowerShell / bash macOS/Linux:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/AliciaVizcarraRamos/PROYECTO-FINAL-TechStore.git<span class="w"> </span>TechStore-Proyecto
+<span class="nb">cd</span><span class="w"> </span>TechStore-Proyecto
+</code></pre></div>
+<p>Monorepo de desarrollo local: <code>ProyectoMS2026</code> (misma estructura).</p>
+<h2 id="4-crea-actividad-autonoma">4. Crea: actividad autónoma</h2>
+<p>Tiempo: 4h fuera del aula.</p>
+<p>Esta actividad autónoma se desarrolla sobre el proyecto de fin de curso del equipo. El producto de la unidad se construye por acumulación de los avances de cada sesión; por eso, la evidencia de esta sesión debe incorporarse a la documentación del proyecto y quedar trazable en GitHub.</p>
+<h3 id="41-plantilla-de-evidencia-individual">4.1 Plantilla de evidencia individual</h3>
+<p>Repositorio del equipo: <a href="https://github.com/AliciaVizcarraRamos/PROYECTO-FINAL-TechStore">https://github.com/AliciaVizcarraRamos/PROYECTO-FINAL-TechStore</a>. Monorepo local: <code>ProyectoMS2026</code>.</p>
+<div class="highlight"><pre><span></span><code>S04_Equipo07_TechStore-g2_ApellidoNombre.pdf
+</code></pre></div>
+<p>Ejemplo Equipo 07 — TechStore-g2:</p>
+<div class="highlight"><pre><span></span><code>S04_Equipo07_TechStore-g2_Vizcarra.pdf
+</code></pre></div>
+<h4 id="411-datos-del-estudiante">4.1.1 Datos del estudiante</h4>
+<p>Ejemplo de referencia (Equipo 07 — TechStore-g2):</p>
+<ul>
+<li>Nombre: Alicia Vizcarra Ramos</li>
+<li>Equipo: 07 — TechStore-g2</li>
+<li>Proyecto: TechStore-Proyecto (<code>ProyectoMS2026</code>)</li>
+<li>Sesión: S04 — Punto único de acceso y distribución de tráfico</li>
+<li>Rol o aporte realizado: Prueba de rutas Gateway para <code>producto</code>; balanceo con <code>/api/v1/producto/instancia</code>; verificación en <code>7091</code> (DEV) y comparación con acceso directo <code>9091</code>.</li>
+<li>Microservicio trabajado en autónomo: <code>producto</code></li>
+<li>Link de GitHub: <a href="https://github.com/AliciaVizcarraRamos/PROYECTO-FINAL-TechStore">PROYECTO-FINAL-TechStore</a></li>
+</ul>
+<h4 id="412-trabajo-autonomo-realizado">4.1.2 Trabajo autónomo realizado</h4>
+<ol>
+<li><strong>Ruta Gateway para producto:</strong> verificar en <code>gateway-dev.yml</code> las rutas <code>producto-route</code> (<code>/api/v1/productos/**</code>) y <code>producto-instancia</code> con <code>uri: lb://producto</code>.</li>
+<li><strong>Consumo por Gateway:</strong> con infra en Maven (<code>7071</code>, <code>7081</code>, <code>7091</code>) y <code>producto</code> en <code>9091</code>, probar <code>GET http://localhost:7091/api/v1/productos</code>.</li>
+<li><strong>Dos instancias:</strong> segunda instancia con <code>--server.port=0</code>; llamar 10 veces a <code>/api/v1/producto/instancia</code> por Gateway y capturar puertos distintos en JSON.</li>
+<li><strong>Comparación:</strong> acceso directo <code>localhost:9091</code> vs Gateway <code>localhost:7091</code> — el cliente solo debe depender del Gateway.</li>
+<li><strong>Error documentado:</strong> 503 si <code>producto</code> no está en Eureka; 404 si el path no coincide con el predicate.</li>
+</ol>
+<h4 id="413-evidencia-tecnica">4.1.3 Evidencia técnica</h4>
+<p><strong>1. Gateway health</strong></p>
+<div class="highlight"><pre><span></span><code>curl http://localhost:7091/actuator/health
+</code></pre></div>
+<p><strong>2. Config Server entrega rutas</strong></p>
+<div class="highlight"><pre><span></span><code>curl http://localhost:7071/gateway/dev
+</code></pre></div>
+<p>Debe listar rutas con <code>lb://producto</code> y <code>lb://catalogo</code>.</p>
+<p><strong>3. API producto vía Gateway</strong></p>
+<div class="highlight"><pre><span></span><code>curl http://localhost:7091/api/v1/productos
+curl http://localhost:7091/api/v1/producto/instancia
+</code></pre></div>
+<p><strong>4. Balanceo (bucle)</strong></p>
+<div class="highlight"><pre><span></span><code>for i in {1..10}; do curl -s http://localhost:7091/api/v1/producto/instancia; echo; done
+</code></pre></div>
+<p><em>Adjuntar capturas del dashboard Eureka con <code>PRODUCTO</code> y salidas del curl.</em></p>
+<h4 id="414-error-o-hallazgo">4.1.4 Error o hallazgo</h4>
+<ul>
+<li><strong>Qué ocurrió:</strong> <code>GET /api/v1/productos</code> por Gateway devolvió <code>503 Service Unavailable</code>.</li>
+<li><strong>Diagnóstico:</strong> <code>producto</code> no estaba registrado en Eureka o el nombre en la ruta era incorrecto (<code>lb://producto</code> en lugar de <code>lb://producto</code>).</li>
+<li><strong>Corrección:</strong> alinear <code>spring.application.name</code>, archivo <code>producto-dev.yml</code> y <code>uri</code> del Gateway; reiniciar <code>producto</code> con registry-server activo.</li>
+</ul>
+<h4 id="415-reflexion-tecnica-breve">4.1.5 Reflexión técnica breve</h4>
+<p><strong>Pregunta:</strong> ¿Por qué Gateway permite ocultar la topología interna?</p>
+<p><strong>Respuesta de referencia (Equipo 07):</strong> El cliente solo conoce <code>localhost:7091</code> y rutas REST. Los puertos internos (<code>9091</code>, <code>9081</code>, etc.) y el número de instancias pueden cambiar sin modificar el frontend. Gateway + Eureka resuelven <code>lb://producto</code> en runtime; el usuario no ve si hay una o tres instancias detrás.</p>
+<h3 id="42-criterios-minimos-de-aceptacion">4.2 Criterios mínimos de aceptación</h3>
+<ul>
+<li>PDF con nombre <code>S04_Equipo07_TechStore-g2_Vizcarra.pdf</code> (o convención del equipo).</li>
+<li>Gateway activo en <code>7091</code> con health <code>UP</code>.</li>
+<li>Al menos una ruta probada por Gateway (no solo puerto directo del MS).</li>
+<li>Evidencia de balanceo o diagnóstico documentado.</li>
+<li>Aporte individual verificable.</li>
+</ul>
+<h2 id="5-cierre-evaluativo">5. Cierre evaluativo</h2>
+<p>Tiempo: 20 min.</p>
+<h3 id="51-resultados-esperados">5.1 Resultados esperados</h3>
+<ul>
+<li>Gateway ejecuta en DEV.</li>
+<li>Rutas consumen microservicios por nombre lógico.</li>
+<li>Se evidencia distribución de tráfico.</li>
+<li>El estudiante diagnostica errores 404 y 503.</li>
+</ul>
+<h3 id="52-evidencia-del-producto-de-sesion">5.2 Evidencia del producto de sesión</h3>
+<p>Cada estudiante entrega un PDF individual siguiendo la plantilla de la sección 4.1.</p>
+<div class="highlight"><pre><span></span><code>S04_Equipo07_TechStore-g2_Vizcarra.pdf
+</code></pre></div>
+<p>Repositorio: <a href="https://github.com/AliciaVizcarraRamos/PROYECTO-FINAL-TechStore">PROYECTO-FINAL-TechStore</a>.</p>
+<h3 id="53-preguntas-de-defensa-y-reflexion">5.3 Preguntas de defensa y reflexión</h3>
+<ol>
+<li>
+<p><strong>¿Por qué el cliente debe entrar por Gateway?</strong></p>
+<p><strong>Respuesta (TechStore):</strong> Un solo punto de entrada (<code>7091</code>/<code>7092</code>), rutas estables (<code>/api/v1/productos</code>) y sin exponer los seis puertos internos. Facilita CORS, seguridad (S07) y cambios de topología sin tocar el cliente.</p>
+</li>
+<li>
+<p><strong>¿Qué significa <code>lb://</code>?</strong></p>
+<p><strong>Respuesta (TechStore):</strong> Esquema de Spring Cloud Gateway que resuelve el host mediante Eureka. <code>lb://producto</code> consulta instancias registradas de <code>producto</code> y el load balancer elige una (round-robin por defecto).</p>
+</li>
+<li>
+<p><strong>¿Cómo se relacionan Gateway y Eureka?</strong></p>
+<p><strong>Respuesta (TechStore):</strong> Los microservicios se registran en <code>registry-server</code> (<code>7081</code>). Gateway es cliente Eureka y usa esa lista para enrutar <code>lb://*</code>. Sin Eureka, Gateway no sabría a qué IP:puerto enviar cada petición.</p>
+</li>
+<li>
+<p><strong>¿Cómo diagnosticas un 503?</strong></p>
+<p><strong>Respuesta (TechStore):</strong> Verificar que el servicio aparece UP en <code>http://localhost:7081</code>, que la ruta usa el nombre correcto (<code>lb://catalogo</code>, no <code>lb://catalogo</code>), que hay al menos una instancia y que Eureka está activo antes que Gateway y los MS.</p>
+</li>
+<li>
+<p><strong>¿Cómo evidencias balanceo?</strong></p>
+<p><strong>Respuesta (TechStore):</strong> Dos instancias del mismo MS en Eureka; llamar repetidamente <code>/api/v1/catalogo/instancia</code> o <code>/api/v1/producto/instancia</code> por Gateway y mostrar que el campo <code>instancia</code> (puerto) cambia entre respuestas.</p>
+</li>
+</ol>
+<h3 id="54-rubrica-de-evaluacion">5.4 Rúbrica de evaluación</h3>
+<table>
+<thead>
+<tr>
+<th>Dimensión</th>
+<th style="text-align: right;">Peso</th>
+<th>3 - Logro destacado</th>
+<th>2 - Logro</th>
+<th>1 - Proceso</th>
+<th>0 - Inicio</th>
+<th style="text-align: right;">Puntuación obtenida</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Gateway operativo</td>
+<td style="text-align: right;">2</td>
+<td>Evidencia Gateway activo, health y rutas funcionales.</td>
+<td>Evidencia Gateway activo y una ruta funcional.</td>
+<td>Evidencia parcial o sin prueba clara.</td>
+<td>No evidencia Gateway funcionando.</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>2. Rutas centralizadas</td>
+<td style="text-align: right;">2</td>
+<td>Configura y explica rutas por nombre lógico.</td>
+<td>Evidencia rutas funcionales.</td>
+<td>Rutas incompletas o confusas.</td>
+<td>No evidencia rutas.</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>3. Balanceo de carga</td>
+<td style="text-align: right;">2</td>
+<td>Evidencia distribución entre múltiples instancias.</td>
+<td>Evidencia múltiples instancias y prueba parcial.</td>
+<td>Explica balanceo sin evidencia suficiente.</td>
+<td>No evidencia balanceo.</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>4. Diagnóstico técnico</td>
+<td style="text-align: right;">2</td>
+<td>Analiza errores de Gateway/Eureka con solución.</td>
+<td>Explica error y causa probable.</td>
+<td>Menciona error sin análisis.</td>
+<td>No presenta diagnóstico.</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>5. Aporte individual</td>
+<td style="text-align: right;">1</td>
+<td>Aporte claro, verificable y conectado al producto.</td>
+<td>Aporte identificable.</td>
+<td>Aporte general.</td>
+<td>No se identifica aporte.</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td>6. Orden y reflexión</td>
+<td style="text-align: right;">1</td>
+<td>PDF ordenado, evidencias legibles y reflexión técnica clara.</td>
+<td>Evidencias entendibles y reflexión suficiente.</td>
+<td>Evidencias poco claras o reflexión superficial.</td>
+<td>PDF desordenado o sin reflexión.</td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<p>Puntuación acumulada = suma de (<code>Peso</code> * <code>Puntuacion obtenida</code>) = ____.</p>
+<p>Nota final = (<code>Puntuacion acumulada</code> / 30) * 20 = ____.</p>
+<p>Para usar la rúbrica con IA, solicita:</p>
+<div class="highlight"><pre><span></span><code>Evalúa el PDF usando la rúbrica de la sesión.
+Para cada dimensión selecciona la puntuación obtenida usando la escala Inicio=0, Proceso=1, Logro=2, Logro destacado=3.
+Justifica brevemente cada puntuación.
+Calcula la puntuación acumulada con la fórmula: suma de (Peso * Puntuación obtenida).
+Calcula la nota final sobre 20 con la fórmula: (Puntuación acumulada / 30) * 20.
+Indica 2 fortalezas y 2 recomendaciones.
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../../javascripts/mermaid.js"></script>
+      
+    
+  </body>
+</html>
