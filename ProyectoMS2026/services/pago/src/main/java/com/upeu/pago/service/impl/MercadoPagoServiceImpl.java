@@ -278,6 +278,9 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
 					"Demasiados intentos fallidos. Espera unos minutos e intenta con un OTP nuevo.";
 			case "cc_rejected_other_reason" ->
 					"Yape rechazó el pago. Revisa tu límite de Compras por internet.";
+			case "cc_rejected_high_risk" ->
+					"Mercado Pago bloqueó el pago por seguridad (alto riesgo). En pruebas usa credenciales TEST, "
+							+ "verifica tu cuenta en el panel de MP y evita pagar desde localhost sin URLs configuradas.";
 			default -> fallback + " (" + statusDetail + ")";
 		};
 	}

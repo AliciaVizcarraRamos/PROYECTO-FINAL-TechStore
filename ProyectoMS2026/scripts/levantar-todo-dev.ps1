@@ -8,6 +8,13 @@ function Test-PortListening([int]$Port) {
     return [bool](Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1)
 }
 
+function Get-MavenCommand([string]$ServicePath) {
+    if (Test-Path (Join-Path $ServicePath "mvnw.cmd")) {
+        return ".\mvnw.cmd spring-boot:run"
+    }
+    return "mvn spring-boot:run"
+}
+
 function Start-DockerDev([string]$RelativePath, [string]$Label) {
     $path = Join-Path $root $RelativePath
     if (-not (Test-Path (Join-Path $path "docker-compose-dev.yml"))) {
@@ -31,10 +38,11 @@ function Start-SpringService([string]$RelativePath, [int]$Port, [string]$Label, 
         return
     }
     $path = Join-Path $root $RelativePath
+    $mvn = Get-MavenCommand $path
     $cmd = if ($LoadMercadoPago) {
-        ". `"$root\scripts\cargar-env-mercadopago.ps1`"; Set-Location `"$path`"; .\mvnw.cmd spring-boot:run"
+        ". `"$root\scripts\cargar-env-mercadopago.ps1`"; Set-Location `"$path`"; $mvn"
     } else {
-        "Set-Location `"$path`"; .\mvnw.cmd spring-boot:run"
+        "Set-Location `"$path`"; $mvn"
     }
     Start-Process powershell -ArgumentList @("-NoExit", "-Command", $cmd) -WindowStyle Minimized | Out-Null
     Write-Host "  [iniciando] $Label (:$Port)" -ForegroundColor Yellow
@@ -45,7 +53,7 @@ function Start-Frontend() {
         Write-Host "  [ya activo] Angular (:4200)" -ForegroundColor Cyan
         return
     }
-    $path = Join-Path $root "e-commerce"
+    $path = Join-Path $root "techstore-proyecto"
     Start-Process powershell -ArgumentList @("-NoExit", "-Command", "Set-Location `"$path`"; npm start") -WindowStyle Minimized | Out-Null
     Write-Host "  [iniciando] Angular (:4200)" -ForegroundColor Yellow
 }
@@ -96,6 +104,7 @@ Write-Host ""
 Write-Host "4) Esperando servicios clave..." -ForegroundColor White
 $targets = @(
     @{ n = "gateway"; u = "http://localhost:7091/actuator/health" },
+    @{ n = "carrito"; u = "http://localhost:9121/actuator/health" },
     @{ n = "pago"; u = "http://localhost:9111/actuator/health" },
     @{ n = "mp-config"; u = "http://localhost:7091/api/v1/pagos/mercadopago/config" },
     @{ n = "frontend"; u = "http://localhost:4200" }
@@ -114,7 +123,7 @@ try {
         $mode = if ($mp.publicKey.StartsWith("APP_USR-")) { "PRODUCCION" } else { "PRUEBA" }
         Write-Host "  Mercado Pago: habilitado ($mode)" -ForegroundColor Green
     } else {
-        Write-Host "  Mercado Pago: NO configurado. Ejecuta cargar-env-mercadopago.ps1 y reinicia pago." -ForegroundColor Red
+        Write-Host "  Mercado Pago: NO configurado. Ejecuta configurar-mercadopago.ps1 y reinicia pago." -ForegroundColor Red
     }
 } catch {
     Write-Host "  No se pudo leer config MP: $_" -ForegroundColor Red

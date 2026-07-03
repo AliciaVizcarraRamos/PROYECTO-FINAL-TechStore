@@ -90,7 +90,7 @@ try {
 
 # 4) Vercel API_URL + redeploy
 Write-Step "Vercel — API_URL y redeploy"
-Push-Location (Join-Path $root "e-commerce")
+Push-Location (Join-Path $root "techstore-proyecto")
 try {
     echo $gateway | npx vercel env add API_URL production --force 2>&1 | Out-Null
     Write-Ok "API_URL=$gateway en Vercel (production)"
